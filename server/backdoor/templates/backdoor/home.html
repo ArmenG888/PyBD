@@ -1,0 +1,18 @@
+{% include 'backdoor/base.html' %}
+{% block content %}
+<script>$(document).ready(function(){
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url : "{% url 'ajax' %}",
+            success: function(response){
+              console.log(response);
+            },
+            error: function(response)
+            {
+                console.log("b");
+            }
+        });
+    },500);
+});</script>
+{% endblock content %}

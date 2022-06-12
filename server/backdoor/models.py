@@ -9,3 +9,9 @@ class Computer(models.Model):
 class Command(models.Model):
     command = models.CharField(default="", max_length=2000)
     target = models.ForeignKey(Computer, on_delete=models.CASCADE)
+
+class Output(models.Model):
+    command = models.CharField(default="", max_length=2000)
+    output = models.TextField(default="", max_length=2000)
+    target = models.ForeignKey(Computer, on_delete=models.CASCADE)
+    time = models.DateTimeField()

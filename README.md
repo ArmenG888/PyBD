@@ -47,3 +47,26 @@ print("hello world")
 cd ..
 dir
 </pre>
+
+<h1>Example</h1>
+<pre>
+keyboard:"
+`ctrl + n`
+www.youtube.com
+`enter`
+";
+
+delay:5
+
+keyboard:"
+`alt + f4`
+";
+
+cd ..
+
+read: test.txt, test1.txt
+
+python:"
+print("hello world")
+";
+</pre>

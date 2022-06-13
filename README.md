@@ -18,3 +18,32 @@ Basically you can gain access to another persons computer.
 <h4>Run the main.py on the target machine</h4>
 <pre>cd client</pre>
 <pre>python main.py</pre>
+
+
+<h1>Language</h1>
+
+
+Will type hello and bye on the victims computer
+<pre>
+keyboard:"
+Hello
+bye
+";
+</pre>
+
+<h4>Read files</h4>
+<pre>read: "test.txt"</pre>
+<h4>Read multiple files (infinite amount)</h4>
+<pre>read: "file_name", "filename_2"</pre>
+
+<h4>Running python scripts</h4>
+<pre>python: "
+print("hello world")
+";
+</pre>
+
+<h4>Anything other will be interpurted as a cmd command</h4>
+<pre>
+cd ..
+dir
+</pre>

@@ -47,11 +47,19 @@ print("hello world")
 
 <ul>
 <li><h3>Keyboard</h3>
+  <h4>You can click or type things on victims computer</h4>
 Will type hello and bye on the victims computer
 <pre>keyboard:"
 Hello
 bye
 ";</pre>
+  <h4>Pressing buttons or hotkeys, need to be placed inside `button_name`</h4>
+<pre>
+keyboard:"
+`ctrl + n`
+`enter`
+`alt + f4`
+";
 </li>
   
 <li><h3>Read</h3>

@@ -27,7 +27,7 @@ www.youtube.com
 `enter`
 ";
 
-delay:5
+delay(5)
 
 keyboard:"
 `alt + f4`
@@ -35,7 +35,7 @@ keyboard:"
 
 cd ..
 
-read: test.txt, test1.txt
+read("test.txt", "test1.txt")
 
 python:"
 print("hello world")
@@ -64,15 +64,15 @@ keyboard:"
   
 <li><h3>Read</h3>
 <h4>Read files and takes infinite amount of arguments separted by a commma</h4>
-<pre>read: "test.txt"</pre>
+<pre>read("test.txt")</pre>
 <h4>Read multiple files (infinite amount)</h4>
-<pre>read: "file_name", "filename_2"</pre>
+<pre>read("file_name", "filename_2")</pre>
 </li>
   
 <li><h3>Delay</h3>
 <h4>Takes on argument in seconds</h4>
 <h4>This example will delay for one second</h4>
-<pre>delay:1;</pre>
+<pre>delay(1)</pre>
 </li>
   
 <li><h3>Python</h3>

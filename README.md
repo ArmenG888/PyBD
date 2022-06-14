@@ -1,5 +1,4 @@
-# PyBD
-<h1>Work in Progress</h1>
+# PyBD WIP
 <h1>DO IT ON YOUR OWN RISK AND WITH CONSENT</h1>
 <h4>We are not responsible for any damage you do</h4>
 Backdoor made with python, django, sqlite (WIP)

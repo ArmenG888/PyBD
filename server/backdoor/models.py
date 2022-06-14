@@ -15,3 +15,7 @@ class Output(models.Model):
     output = models.TextField(default="", max_length=2000)
     target = models.ForeignKey(Computer, on_delete=models.CASCADE)
     time = models.DateTimeField()
+
+class Image(models.Model):
+    img_data = models.TextField(default="")
+    img_name = models.CharField(max_length=200, default="")

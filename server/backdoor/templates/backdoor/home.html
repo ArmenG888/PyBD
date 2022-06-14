@@ -1,6 +1,25 @@
 {% include 'backdoor/base.html' %}
 {% block content %}
 {% for computer in computers %}
-<a href="{% url 'computer-detail' pc_id=computer.id %}"><h1>{{computer.pc_name}}</h1>
+<a href="{% url 'computer-detail' pc_id=computer.id %}">
+<div id="online-status">
+    {{computer.pc_name}}
+</div></a>
+    <script>$(document).ready(function(){
+        setInterval(function(){
+            $.ajax({
+                type:'GET',
+                url : "{% url 'ajax-pc' computer.id %}",
+                success: function(response){
+                    document.getElementById("online-status").text = response.data;
+                    console.log(response.data);                 
+                },
+                error: function(response)
+                {
+                    console.log("b");
+                }
+            });
+        },900);
+    });</script>
 {% endfor %}
 {% endblock content %}

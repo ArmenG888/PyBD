@@ -4,7 +4,7 @@ from django.db import models
 class Computer(models.Model):
     ip_addr = models.CharField(default="192.168.1.1",max_length=12)
     pc_name = models.CharField(default="", max_length=100)
-
+    last_online = models.DateTimeField()
 
 class Command(models.Model):
     command = models.TextField(default="", max_length=2000)

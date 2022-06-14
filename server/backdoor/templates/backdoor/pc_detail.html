@@ -4,15 +4,14 @@
 <div class="mb-3">
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
 </div>
-<div class="mb-3">
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
-</div>
-<script>
-    $(document).ready(function(){
-        var $textarea = $('#exampleFormControlTextarea1');
-        $textarea.scrollTop($textarea[0].scrollHeight);
-    });
-</script>
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <textarea class="form-control" id="code" name="code" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
 <script>$(document).ready(function(){
     setInterval(function(){
         $.ajax({
@@ -20,7 +19,9 @@
             url : "{% url 'ajax' pc.id %}",
             success: function(response){
                 console.log(response.data);
-                document.getElementById("exampleFormControlTextarea1").value = response.data;      
+                document.getElementById("exampleFormControlTextarea1").value = response.data; 
+                var $textarea = $('#exampleFormControlTextarea1');
+                $textarea.scrollTop($textarea[0].scrollHeight);     
             },
             error: function(response)
             {
@@ -29,4 +30,5 @@
         });
     },900);
 });</script>
+
 {% endblock content %}

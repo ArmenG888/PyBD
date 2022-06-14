@@ -1,3 +1,6 @@
 {% include 'backdoor/base.html' %}
 {% block content %}
+{% for computer in computers %}
+<a href="{% url 'computer-detail' pc_id=computer.id %}"><h1>{{computer.pc_name}}</h1>
+{% endfor %}
 {% endblock content %}

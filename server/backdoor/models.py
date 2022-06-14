@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Computer(models.Model):
-    ip_addr = models.CharField(default="192.168.1.1",max_length=12)
+    ip_addr = models.CharField(default="192.168.1.1",max_length=50)
     pc_name = models.CharField(default="", max_length=100)
     last_online = models.DateTimeField()
 

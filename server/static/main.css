@@ -1,0 +1,14 @@
+.online{
+    font-size:30px;
+    font-weight: 500;
+    color:rgb(34, 146, 0);
+}
+.offline{
+    font-size:30px;
+    font-weight: 500;
+    color:grey;
+}
+.computerdiv{
+    display:inline-block;
+    margin-left: 1%;
+}

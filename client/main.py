@@ -45,7 +45,8 @@ class backdoor:
         for line, command in enumerate(commands_to_execute):
             if line in lines_to_skip: continue
             if command.startswith("read"):
-                command_args = command.split(":")
+                command = command.replace(")", "")
+                command_args = command.split("(")
                 files_to_read = command_args[1].split(",")
                 for file in files_to_read:
                     file = file.replace('"', '')

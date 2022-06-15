@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from .models import Output, Computer, Command
 from .forms import CodeForm
@@ -38,3 +38,8 @@ def check_pc_online(request, pk):
         return JsonResponse({"data":"offline"})
     else:
         return JsonResponse({"data":"online"}) 
+
+def clean(request, pk):
+    computer = Computer.objects.all().filter(id=pk)[0]
+    Output.objects.filter(target=computer).delete()
+    return redirect("computer-detail", pk)

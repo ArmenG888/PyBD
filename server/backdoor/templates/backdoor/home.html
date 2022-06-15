@@ -1,14 +1,15 @@
 {% include 'backdoor/base.html' %}
 {% block content %}
 {% for computer in computers %}
-    <div class="computerdiv">
-        <a style="text-decoration:none;" href="{% url 'computer-detail' pc_id=computer.id %}">
+    <div class="computerdiv" style="zoom: 175%">
+        
         <div id="online-status-{{computer.id}}">
             
         </div>
         <h4 style="color:black">{{computer.pc_name}}</h4>
         <h4 style="color:grey;font-size:16px;">{{computer.ip_addr}}</h4>
-        <button type="button" class="btn btn-dark">Control</button>
+        <a style="text-decoration:none;" href="{% url 'computer-detail' pc_id=computer.id %}">
+            <button type="button" class="btn btn-dark">Control</button>
         </a>
         </div>
             <script>$(document).ready(function(){

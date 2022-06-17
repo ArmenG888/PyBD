@@ -28,7 +28,7 @@ def ajax(request, pk):
     data = ""
     computer = Computer.objects.all().filter(id=pk)[0]
     for output in Output.objects.all().filter(target=computer):
-        data += output.target.pc_name + ":~$ " + output.output
+        data += output.output
     return JsonResponse({'data':data})
 
 def check_pc_online(request, pk):

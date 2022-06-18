@@ -85,6 +85,26 @@ Restarting the pc
 hello world
 </pre>
 </li>
+ 
+<li><h3>Mouse</h3>
+<h4>Control the mouse, click, move, both</h4>
+  <ul>
+    <li><h4>click()</h4>
+      <h4>Left clicks the mouse. Has two arguments, if not argument provided will click on the point where the cursor is located</h4>
+      <h4>First argument is the x value and the second is y value of where to click</h4>
+      <pre>
+mouse.click()
+mouse.click(100,100)</pre>
+    <li><h4>right_click()</h4>
+      <h4>Same as click() only it right click's. Has two optional arguments of x and y</h4>
+      <pre>
+mouse.right_click()
+mouse.right_click(100,100)</pre>     
+    <li><h4>move()</h4>
+      <h4>Moves the cursor to the given points. Needs two arguments</h4>
+      <pre>mouse.move(100,100)</pre>
+  </ul>
+</li>  
   
 <li><h3>CMD</h3>
 <h4>Anything other will be interpurted as a cmd command</h4>

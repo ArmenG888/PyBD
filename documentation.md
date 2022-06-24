@@ -121,8 +121,13 @@ dir
 <pre>web("https://www.youtube.com/watch?v=dQw4w9WgXcQ")</pre>
 </li>
 <li><h3>screenshot()</h3>
-<h4>Takes a screenshot and uploads to the website</h4>
+<h4>Takes a screenshot and uploads to the website. No CSRF on the site</h4>
 <pre>1. screenshot()</pre>
+</li>
+<li><h3>download()</h3>
+<h4>Download any file, any file type (Encoded). Gets downloaded to the site's media folder. No CSRF required on the site</h4>
+<h4>Note: you need to be in the same directory as the file</h4>
+<pre>1. download("test.py")</pre>
 </li>
 </ul>
 

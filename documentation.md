@@ -125,4 +125,10 @@ dir
 <pre>1. screenshot()</pre>
 </li>
 </ul>
+<li><h3>download()</h3>
+<h4>Download any file, any file type (Encoded). Gets downloaded to the site's media folder</h4>
+<h4>Note: you need to be in the same directory as the file</h4>
+<pre>1. download("test.py")</pre>
+</li>
+</ul>
 

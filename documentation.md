@@ -120,5 +120,9 @@ dir
 <h4>Open the webbrowser, one argument (link)</h4>
 <pre>web("https://www.youtube.com/watch?v=dQw4w9WgXcQ")</pre>
 </li>
+<li><h3>screenshot()</h3>
+<h4>Takes a screenshot and uploads to the website</h4>
+<pre>1. screenshot()</pre>
+</li>
 </ul>
 

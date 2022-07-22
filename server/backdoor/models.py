@@ -6,9 +6,15 @@ class Computer(models.Model):
     pc_name = models.CharField(default="", max_length=100)
     last_online = models.DateTimeField()
 
+    def __str__(self):
+        return self.pc_name, self.ip_addr
+
 class Command(models.Model):
     command = models.TextField(default="", max_length=2000)
     target = models.ForeignKey(Computer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        f"{self.command} {self.target}"
 
 class Output(models.Model):
     command = models.CharField(default="", max_length=2000)
@@ -22,3 +28,5 @@ class Image(models.Model):
 
 class Files(models.Model):
     file = models.FileField(upload_to="files")
+
+    

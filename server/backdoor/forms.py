@@ -5,3 +5,6 @@ class CodeForm(forms.Form):
 
 class ScreenShotForm(forms.Form):
     file = forms.FileField()
+
+class OutputForm(forms.Form):
+    output = forms.CharField()

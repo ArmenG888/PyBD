@@ -7,5 +7,9 @@ urlpatterns = [
     path("ajax/<pk>", views.ajax, name="ajax"),
     path("pc_ajax/<pk>", views.check_pc_online, name="ajax-pc"),
     path("clean/<pk>", views.clean, name="clean"),
-    path("files/", views.screenshot, name="screenshot")
+    path("files/", views.screenshot, name="screenshot"),
+    
+
+    # api
+    path("api/commands/<pk>", views.commands)
 ]

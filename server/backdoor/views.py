@@ -84,9 +84,9 @@ def output(request, pk, command_id):
     computer = Computer.objects.get(id=pk)
     command = Command.objects.get(id=command_id)
     if request.method == 'POST':
-        form = OutputForm(request.POST, request.FILES)
+        form = OutputForm(request.POST)
         if form.is_valid():
-            output = request.FILES['output']
+            output = form.cleaned_data['output']
             Output.objects.create(target=computer,
                                   output=output,
                                   command=command.command,

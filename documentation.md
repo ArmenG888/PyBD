@@ -129,5 +129,11 @@ dir
 <h4>Note: you need to be in the same directory as the file</h4>
 <pre>1. download("test.py")</pre>
 </li>
+</li>
+<li><h3>volume()</h3>
+<h4>Change the volume of the computer. Argument is by how much</h4>
+<pre>1. volume(100) # will increase to the volume by 100</pre>
+ <pre>2. volume(-100) # will decrease to the volume by 100</pre>
+</li>
 </ul>
 

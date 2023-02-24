@@ -17,5 +17,6 @@ urlpatterns = [
     path("ajax/online/<pk>", views.ajax, name="ajax"),
     path("ajax/pc/<pk>", views.check_pc_online, name="ajax-pc"),
     path("ajax/clean/<pk>", views.clean, name="clean"),
+    path("ajax/command/<computer_id>", views.send_command, name="send_command")
     
 ]

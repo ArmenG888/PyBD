@@ -2,21 +2,33 @@
 {% block content %}
 <div style="padding:15px;">
     <h1>{{pc.pc_name}}</h1>
-    <div id="online-status-{{pc.id}}" class="offline">
-    Unknown       
-    </div>
+    <div id="online-status-{{pc.id}}" class="offline">⚪ Checking</div>
     <div class="mb-3">
         <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid;" rows="10"></textarea>
     </div>
-    <form method="POST">
-        {% csrf_token %}
         <div class="mb-3">
             <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid;"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Send</button>
+        <button onclick="send_command()" class="btn btn-primary">Send</button>
         <a href="{% url 'clean' pc.id %}"><button type="button" class="btn btn-dark">Clear</button></a>
-    </form>
-
+    <script>
+        function send_command(){
+            $.ajax({
+                type: 'POST',
+                url : "{% url 'send_command' pc.id %}",
+                data: {
+                    'code': $('#code').val()
+                  },
+                success: function(response){
+                    document.getElementById("code").value = "";
+                },
+                error: function(response)
+                {
+                    console.log("b");
+                }
+            });
+        }
+    </script>
     <script>$(document).ready(function(){
         setInterval(function(){
             $.ajax({
@@ -42,9 +54,15 @@
                 url : "{% url 'ajax-pc' pc.id %}",
                 success: function(response){
                     let element = document.getElementById("online-status-{{pc.id}}")
-                    element.innerText = response.data;
-                    element.removeAttribute('class');
-                    element.classList.add(response.data);               
+                    if(response.data == "online")
+                    {
+                        element.innerText = "🟢 Online"
+                        element.style.color = "green"
+                    }
+                    else {
+                        element.innerText = "🔴 Offline"
+                        element.style.color = "rgb(255,0,0)"
+                    }             
                 },
                 error: function(response)
                 {
@@ -53,5 +71,6 @@
             });
         },900);
     });</script>
+
 </div>
 {% endblock content %}

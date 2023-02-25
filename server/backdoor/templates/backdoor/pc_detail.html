@@ -2,7 +2,10 @@
 {% block content %}
 <div style="padding:15px;">
     <h1>{{pc.pc_name}}</h1>
-    <p id="online-status-{{pc.id}}" class="offline">⚪ Checking</p>
+    <div style="display:flex; flex-direction:row;">
+        <p id="online-status-{{pc.id}}" class="offline">⚪ Checking</p>
+        <p id="ping-{{pc.id}}" class="offline" style="margin-left:7px;"></p>
+    </div>
     <div class="mb-3">
         <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid;" rows="10"></textarea>
     </div>
@@ -58,11 +61,28 @@
                     {
                         element.innerText = "🟢 Online"
                         element.style.color = "green"
+                        let ping_element = document.getElementById("ping-{{pc.id}}") 
+                        if(response.ping < 50)
+                        {
+                            ping_element.innerText = response.ping+"ms"      
+                            ping_element.style.color = "green"
+                        }
+                        else if(response.ping >= 50 && response.ping < 150)
+                        {
+                            ping_element.innerText = response.ping+"ms"      
+                            ping_element.style.color = "orange"
+                        }
+                        else{
+                            ping_element.innerText = response.ping+"ms"      
+                            ping_element.style.color = "red"
+                        }
                     }
                     else {
                         element.innerText = "🔴 Offline"
                         element.style.color = "red"
-                    }             
+                    }      
+                    
+                    
                 },
                 error: function(response)
                 {

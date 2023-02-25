@@ -26,11 +26,11 @@ def ajax(request, pk):
 
 def check_pc_online(request, pk):
     computer = Computer.objects.all().filter(id=pk)[0]
-    within_3_seconds = timezone.now() - timedelta(seconds=1)
+    within_3_seconds = timezone.now() - timedelta(seconds=2)
     if within_3_seconds > computer.last_online:
-        return JsonResponse({"data":"offline"})
+        return JsonResponse({"data":"offline", "ping":computer.ping})
     else:
-        return JsonResponse({"data":"online"}) 
+        return JsonResponse({"data":"online", "ping":computer.ping}) 
 
 def clean(request, pk):
     computer = Computer.objects.all().filter(id=pk)[0]
@@ -55,9 +55,10 @@ def get_id(request, ip):
     except:
         computer = Computer.objects.create(ip_addr=ip)
     return JsonResponse({'id':computer.id})
-def ping(request, pk):
+def ping(request, pk, ping):
     computer = Computer.objects.get(id=pk)
     computer.last_online = timezone.now()
+    computer.ping = ping
     computer.save()
     return JsonResponse({})
     

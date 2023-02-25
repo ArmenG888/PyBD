@@ -5,6 +5,7 @@ class Computer(models.Model):
     ip_addr = models.CharField(default="192.168.1.1",max_length=50)
     pc_name = models.CharField(default="", max_length=100)
     last_online = models.DateTimeField(default=timezone.now)
+    ping = models.CharField(default="0",max_length=100)
 
 class Command(models.Model):
     command = models.TextField(default="", max_length=2000)

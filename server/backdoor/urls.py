@@ -9,7 +9,7 @@ urlpatterns = [
     # api
     path("api/commands/<pk>", views.commands),
     path("api/output/<pk>/<command_id>", views.output),
-    path("api/ping/<pk>", views.ping),
+    path("api/ping/<pk>/<ping>", views.ping),
     path("api/get_id/<ip>/", views.get_id),
     path("api/files/", views.screenshot),
 

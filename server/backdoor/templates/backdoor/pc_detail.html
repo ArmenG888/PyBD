@@ -2,7 +2,7 @@
 {% block content %}
 <div style="padding:15px;">
     <h1>{{pc.pc_name}}</h1>
-    <div id="online-status-{{pc.id}}" class="offline">⚪ Checking</div>
+    <p id="online-status-{{pc.id}}" class="offline">⚪ Checking</p>
     <div class="mb-3">
         <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid;" rows="10"></textarea>
     </div>
@@ -61,7 +61,7 @@
                     }
                     else {
                         element.innerText = "🔴 Offline"
-                        element.style.color = "rgb(255,0,0)"
+                        element.style.color = "red"
                     }             
                 },
                 error: function(response)

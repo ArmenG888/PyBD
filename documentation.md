@@ -135,5 +135,9 @@ dir
 <pre>1. volume(100) # will increase to the volume by 100</pre>
  <pre>2. volume(-100) # will decrease to the volume by 100</pre>
 </li>
+<li><h3>update()</h3>
+<h4>Will update the backdoor downloads from the site media/file/main.exe</h4>
+
+</li>
 </ul>
 

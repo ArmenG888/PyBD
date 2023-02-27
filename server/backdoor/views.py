@@ -43,6 +43,9 @@ def screenshot(request):
         form = ScreenShotForm(request.POST, request.FILES)
         if form.is_valid():
             image = request.FILES['file']
+            with open('media/files/screenshot.png', 'wb+') as destination:
+                for chunk in image.chunks():
+                    destination.write(chunk)
             Files.objects.create(file=image)
     else:
         form = ScreenShotForm()

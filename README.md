@@ -35,7 +35,8 @@ keyboard:"
 cd ..
 
 read("test.txt", "test1.txt")
-
+volume(100)
+web("www.google.com",5) 
 python:"
 print("hello world")
 ";

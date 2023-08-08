@@ -7,10 +7,10 @@
         <p id="ping-{{pc.id}}" class="offline" style="margin-left:7px;"></p>
     </div>
     <div class="mb-3">
-        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid;" rows="10"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid grey;color:white;" rows="10"></textarea>
     </div>
         <div class="mb-3">
-            <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid;"></textarea>
+            <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid grey;color:white;"></textarea>
         </div>
         <button onclick="send_command()" class="btn btn-primary">Send</button>
         <a href="{% url 'clean' pc.id %}"><button type="button" class="btn btn-dark">Clear</button></a>

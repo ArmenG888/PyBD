@@ -17,12 +17,13 @@ def get_db():
         db.close()
 
 
-@app.get("/computer/{computer_id}", response_model=schemas.Computer)
+@app.get("/computer/{computer_id}")
 def read_user(computer_id: int, db: Session = Depends(get_db)):
     db_user = crud.get_computer(db, computer_id=computer_id)
+    commands = crud.get_commands_by(db=db,target_id=computer_id)
     if db_user is None:
         raise HTTPException(status_code=404, detail="Computer not found")
-    return db_user
+    return {'name':db_user.computer_name, 'commands':commands}
 
 @app.post("/computer/create", response_model=schemas.ComputerCreate)
 def create_computer(computer_create: schemas.ComputerCreate, db: Session = Depends(get_db)):

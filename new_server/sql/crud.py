@@ -29,6 +29,9 @@ def get_command(db: Session, command_id: int):
 def get_commands(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Command).offset(skip).limit(limit).all()
 
+def get_commands_by(db: Session, target_id: int):
+    return db.query(models.Command).filter(models.Command.target_id == target_id).all()
+
 def create_command(db: Session, command: schemas.CommandCreate):
     db_command = models.Command(name=command.name, target_id=command.target_id)
     db.add(db_command)

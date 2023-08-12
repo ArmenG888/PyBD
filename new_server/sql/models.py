@@ -17,6 +17,6 @@ class Command(Base):
     __tablename__ = "commands"
 
     id = Column(Integer, primary_key=True, index=True)
-    command = Column(String, index=True)
-    target_id = Column(Integer, ForeignKey('computers.id'))
+    name = Column(String, index=True)
+    target_id = Column(Integer, ForeignKey("computers.id"))
     target = relationship("Computer", back_populates="commands")

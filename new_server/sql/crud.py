@@ -30,7 +30,7 @@ def get_commands(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Command).offset(skip).limit(limit).all()
 
 def create_command(db: Session, command: schemas.CommandCreate):
-    db_command = models.Command(command=command.name)
+    db_command = models.Command(name=command.name, target_id=command.target_id)
     db.add(db_command)
     db.commit()
     db.refresh(db_command)

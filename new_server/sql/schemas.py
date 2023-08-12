@@ -23,12 +23,10 @@ class CommandBase(BaseModel):
 
 class CommandCreate(CommandBase):
     name: str
-    computer_id: int
+    target_id: int
 
 
 class Command(CommandBase):
     id: int
-    owner_id: int
-
     class Config:
         orm_mode = True

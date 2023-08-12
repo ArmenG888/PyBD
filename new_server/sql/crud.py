@@ -9,6 +9,8 @@ def get_computer(db: Session, computer_id: int):
 def get_computer_by_ip(db: Session, ip: str):
     return db.query(models.Computer).filter(models.Computer.ip == ip).first()
 
+def get_computer_by_name(db: Session, name: str):
+    return db.query(models.Computer).filter(models.Computer.computer_name == name).first()
 
 def get_computers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()

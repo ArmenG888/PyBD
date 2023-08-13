@@ -23,8 +23,13 @@ def create_computer(db: Session, computer: schemas.ComputerCreate):
     db.refresh(db_computer)
     return db_computer
 
-
-
+def output(db:Session,computer_id:int, command_output: schemas.OuptutBase):
+    pc = db.query(models.Computer).filter(models.Computer.id == computer_id).first()
+    pc.output_text = command_output.output
+    db.add(pc) 
+    db.commit()
+    db.refresh(pc)
+    return pc
 def get_command(db: Session, command_id: int):
     return db.query(models.Command).filter(models.Command.id == command_id).first()
 

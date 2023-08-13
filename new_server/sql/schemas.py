@@ -16,6 +16,8 @@ class Computer(ComputerBase):
     class Config:
         orm_mode = True
 
+class OuptutBase(BaseModel):
+    output: str
 
 class CommandBase(BaseModel):
     name: str

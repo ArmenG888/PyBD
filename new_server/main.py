@@ -55,4 +55,14 @@ def create_command(command_create: schemas.CommandCreate,db: Session = Depends(g
     db_command = crud.create_command(db=db, command=command_create)
     return db_command
 
+@app.delete("/command/{command_id}/delete", response_model=schemas.Command)
+def delete_command(command_id: int, db: Session = Depends(get_db)):
+    db_command = crud.delete_command(db=db, command_id=command_id)
+    if db_command is None:
+        raise HTTPException(status_code=404, detail="Command not found")
+    return db_command
 
+@app.put("/computer/{computer_id}/output/", response_model=schemas.CommandCreate)
+def create_command_output(computer_id:int, output: schemas.OuptutBase,db: Session = Depends(get_db)):
+    db_computer = crud.output(db=db, computer_id=computer_id, command_output=output)
+    return db_computer

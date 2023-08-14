@@ -62,7 +62,7 @@ def delete_command(command_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Command not found")
     return db_command
 
-@app.put("/computer/{computer_id}/output/", response_model=schemas.CommandCreate)
+@app.put("/computer/{computer_id}/output/")
 def create_command_output(computer_id:int, output: schemas.OuptutBase,db: Session = Depends(get_db)):
     db_computer = crud.output(db=db, computer_id=computer_id, command_output=output)
-    return db_computer
+    return {'status':'yes'}

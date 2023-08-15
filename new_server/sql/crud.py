@@ -15,6 +15,13 @@ def get_computer_by_name(db: Session, name: str):
 def get_computers(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
+def set_ping(db:Session, computer_id:int, ping: schemas.PingBase):
+    pc = db.query(models.Computer).filter(models.Computer.id == computer_id).first()
+    pc.ping = ping.ping
+    db.add(pc) 
+    db.commit()
+    db.refresh(pc)
+    return pc
 
 def create_computer(db: Session, computer: schemas.ComputerCreate):
     db_computer = models.Computer(computer_name=computer.computer_name)  # Use computer.name here

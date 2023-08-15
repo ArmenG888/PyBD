@@ -10,7 +10,7 @@ class Computer(Base):
     computer_name = Column(String, index=True)
     computer_ip = Column(String, index=True)
     output_text = Column(String, index=True)
-    ping = Column(Boolean, index=True)
+    ping = Column(String, index=True)
 
 
     commands = relationship("Command", back_populates="target")

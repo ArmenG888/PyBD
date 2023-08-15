@@ -17,13 +17,20 @@ def get_db():
         db.close()
 
 
-@app.get("/computer/{computer_id}")
-def get_computer(computer_id: int, db: Session = Depends(get_db)):
+@app.post("/computer/{computer_id}")
+def get_computer_post(computer_id: int, ping: schemas.PingBase, db: Session = Depends(get_db)):
     computer = crud.get_computer(db, computer_id=computer_id)
     commands = crud.get_commands_by(db=db,target_id=computer_id)
+    crud.set_ping(db,computer_id, ping)
     if computer is None:
         raise HTTPException(status_code=404, detail="Computer not found")
-    return {'name':computer.computer_name, 'commands':commands}
+    return {'name':computer.computer_name,'ping':computer.ping, 'commands':commands}
+
+@app.get("/computer/{computer_id}", response_model=schemas.Computer)
+def get_computer(computer_id: int,db: Session = Depends(get_db)):
+    computer = crud.get_computer(db, computer_id=computer_id)
+    return computer
+
 
 @app.get("/computer/name/{computer_name}")
 def get_computer_by_name(computer_name: str, db: Session = Depends(get_db)):

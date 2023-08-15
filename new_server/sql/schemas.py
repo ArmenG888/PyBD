@@ -5,6 +5,8 @@ from pydantic import BaseModel
 
 class ComputerBase(BaseModel):
     computer_name: str
+    ping: str
+
 
 
 class ComputerCreate(BaseModel):
@@ -18,6 +20,9 @@ class Computer(ComputerBase):
 
 class OuptutBase(BaseModel):
     output: str
+
+class PingBase(BaseModel):
+    ping: str
 
 class CommandBase(BaseModel):
     name: str

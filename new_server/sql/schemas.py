@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class ComputerBase(BaseModel):
     computer_name: str
-    ping: str
+    
 
 
 
@@ -14,7 +14,7 @@ class ComputerCreate(BaseModel):
 
 class Computer(ComputerBase):
     computer_name: str
-
+    
     class Config:
         orm_mode = True
 

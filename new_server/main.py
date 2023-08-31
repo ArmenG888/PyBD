@@ -16,17 +16,6 @@ def get_db():
     finally:
         db.close()
 
-
-# @app.post("/computer/{computer_id}")
-# def get_computer_post(computer_id: int, ping: schemas.PingBase, db: Session = Depends(get_db)):
-#     computer = crud.get_computer(db, computer_id=computer_id)
-#     commands = crud.get_commands_by(db=db,target_id=computer_id)
-#     print(commands)
-#     crud.set_ping(db,computer_id, ping)
-#     if computer is None:
-#         raise HTTPException(status_code=404, detail="Computer not found")
-#     return {'name':computer.computer_name,'ping':computer.ping, 'commands':commands}
-
 @app.get("/computer/{computer_id}")
 def get_computer(computer_id: int,db: Session = Depends(get_db)):
     commands = crud.get_commands_by(db=db,target_id=computer_id)
@@ -77,5 +66,5 @@ def delete_command(command_id: int, db: Session = Depends(get_db)):
 
 @app.put("/computer/{computer_id}/output/")
 def create_command_output(computer_id:int, output: schemas.OuptutBase,db: Session = Depends(get_db)):
-    db_computer = crud.output(db=db, computer_id=computer_id, command_output=output)
+    crud.output(db=db, computer_id=computer_id, command_output=output)
     return {'status':'yes'}

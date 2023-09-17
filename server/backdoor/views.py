@@ -7,16 +7,21 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
 
+
 def home(request):
-    context = {
-        'computers': Computer.objects.all()
-    }
-    return render(request, "backdoor/home.html", context)
-
+    if request.user.is_superuser:
+        context = {
+            'computers': Computer.objects.all()
+        }
+        return render(request, "backdoor/home.html", context)
+    else:
+        return redirect("/admin/")
 def computer_detail(request, pc_id):
-    computer = Computer.objects.all().filter(id=pc_id)[0]
-    return render(request, "backdoor/pc_detail.html", {'pc':computer})
-
+    if request.user.is_superuser:
+        computer = Computer.objects.all().filter(id=pc_id)[0]
+        return render(request, "backdoor/pc_detail.html", {'pc':computer})
+    else:
+        return redirect("/admin/")
 def ajax(request, pk):
     data = ""
     computer = Computer.objects.all().filter(id=pk)[0]

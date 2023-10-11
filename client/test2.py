@@ -1,8 +1,8 @@
-import time
-import requests
+import os
 
-
-
-while True:
-    r = requests.get("http://127.0.0.1:8000/computer/1")
-    print(r)
+try:
+    os.system("taskkill /f /im new_main.exe")
+    os.remove("new_main.exe")
+except:
+    os.system("taskkill /f /im main.exe")
+    os.remove("main.exe")

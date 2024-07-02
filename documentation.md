@@ -140,4 +140,7 @@ dir
 
 </li>
 </ul>
-
+<li><h3>upload()</h3>
+<h4>Upload any file to the computer</h4>
+<pre>1. upload("https://github.com/ArmenG888/PyBD/edit/main/documentation.md")</pre>
+</li>

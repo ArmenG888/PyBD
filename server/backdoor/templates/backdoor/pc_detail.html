@@ -7,10 +7,10 @@
         <p id="ping-{{pc.id}}" class="offline" style="margin-left:7px;"></p>
     </div>
     <div class="mb-3">
-        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid grey;color:white;" rows="10"></textarea>
+        <textarea class="form-control" id="exampleFormControlTextarea1" style="border:1px solid grey;color:black;" rows="10"></textarea>
     </div>
         <div class="mb-3">
-            <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid grey;color:white;"></textarea>
+            <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid grey;color:black;"></textarea>
         </div>
         <button onclick="send_command()" class="btn btn-primary">Send</button>
         <a href="{% url 'clean' pc.id %}"><button type="button" class="btn btn-dark">Clear</button></a>
@@ -34,21 +34,22 @@
     </script>
     <script>$(document).ready(function(){
         setInterval(function(){
+            var textarea = document.getElementById('exampleFormControlTextarea1');
+            var scrollPosition = textarea.scrollTop;
+            
             $.ajax({
-                type:'GET',
+                type: 'GET',
                 url : "{% url 'ajax' pc.id %}",
                 success: function(response){
                     console.log(response.data);
-                    document.getElementById("exampleFormControlTextarea1").value = response.data; 
-                    var $textarea = $('#exampleFormControlTextarea1');
-                    $textarea.scrollTop($textarea[0].scrollHeight);     
+                    textarea.value = response.data;
+                    textarea.scrollTop = scrollPosition;
                 },
-                error: function(response)
-                {
+                error: function(response) {
                     console.log("b");
                 }
             });
-        },900);
+        }, 900);
     });</script>
     <script>$(document).ready(function(){
         setInterval(function(){

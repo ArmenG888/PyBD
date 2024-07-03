@@ -12,8 +12,14 @@
         <div class="mb-3">
             <textarea class="form-control" id="code" name="code" rows="10" style="border:1px solid grey;color:black;"></textarea>
         </div>
-        <button onclick="send_command()" class="btn btn-primary">Send</button>
-        <a href="{% url 'clean' pc.id %}"><button type="button" class="btn btn-dark">Clear</button></a>
+  
+        <div style="width:100%; display:flex; flex-direction:row">
+            <button onclick="send_command()" class="btn btn-primary" style="width:100%">Send</button>
+            <button onclick="window.location.href='{% url 'clean' pc.id %}'" type="button" class="btn btn-dark">Clear</button>
+        </div>
+        
+</div>
+
     <script>
         function send_command(){
             $.ajax({
@@ -93,5 +99,5 @@
         },900);
     });</script>
 
-</div>
+
 {% endblock content %}

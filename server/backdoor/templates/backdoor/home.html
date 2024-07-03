@@ -4,10 +4,14 @@
     <div class="computerdiv" style="zoom: 175%">
         
         <div style="display:flex; flex-direction:row;">
-            <p id="online-status-{{computer.id}}">⚪ Checking</p>
+            
+            <p id="online-status-{{computer.id}}">⚪ Checking {{computer.pc_name}}</p>
             <p id="ping-{{computer.id}}" style="margin-left:7px;"></p>
+
         </div>
-        <h4 style="color:grey;font-size:16px;">{{computer.ip_addr}}</h4>
+        
+        <h4 style="color:grey;font-size:16px;">{{computer.ip_addr}} {{computer.pc_name}}</h4>
+        <h4 style="color:grey;font-size:16px;"></h4>
         <a style="text-decoration:none;" href="{% url 'computer-detail' pc_id=computer.id %}">
             <button type="button" class="btn btn-outline-dark">Control</button>
         </a>

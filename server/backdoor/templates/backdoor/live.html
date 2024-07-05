@@ -1,0 +1,16 @@
+{% include 'backdoor/base.html' %}
+{% block content %}
+<img src="/media/files/screenshot.png" class="blah" id="dynamic-image">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function update_image(){
+        // Get the current time to avoid caching issues
+        var timestamp = new Date().getTime();
+        // Update the image src with a timestamp to force reload
+        $('#dynamic-image').attr('src', '/media/files/screenshot.png?t=' + timestamp);
+    }
+    
+    // Set interval to update the image every second (1000 milliseconds)
+    setInterval(update_image, 1000);
+</script>
+{% endblock content %}

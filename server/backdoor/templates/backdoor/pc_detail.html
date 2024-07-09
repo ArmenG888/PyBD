@@ -16,6 +16,7 @@
         <div style="width:100%; display:flex; flex-direction:row">
             <button onclick="send_command()" class="btn btn-primary" style="width:100%">Send</button>
             <button onclick="window.location.href='{% url 'clean' pc.id %}'" type="button" class="btn btn-dark">Clear</button>
+            <button onclick="window.location.href='{% url 'live' pc.id %}'" type="button" class="btn btn-warning">Live</button>
         </div>
         
 </div>

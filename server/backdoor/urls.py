@@ -12,7 +12,7 @@ urlpatterns = [
     path("api/ping/<pk>/<ping>", views.ping),
     path("api/get_id/<ip>/", views.get_id),
     path("api/files/", views.screenshot),
-    path("live/<pk>", views.live),
+    path("live/<pk>", views.live, name="live"),
     # js
     path("ajax/online/<pk>", views.ajax, name="ajax"),
     path("ajax/pc/<pk>", views.check_pc_online, name="ajax-pc"),

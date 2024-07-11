@@ -6,6 +6,7 @@ class Computer(models.Model):
     pc_name = models.CharField(default="", max_length=100)
     last_online = models.DateTimeField(default=timezone.now)
     ping = models.CharField(default="0",max_length=100)
+    live = models.BooleanField(default=True)
 
 class Command(models.Model):
     command = models.TextField(default="", max_length=2000)
